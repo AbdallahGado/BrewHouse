@@ -27,8 +27,8 @@ export function ReservationModal({ isOpen, onClose }: ReservationModalProps) {
     if (session?.user && isOpen) {
       setFormData((prev) => ({
         ...prev,
-        name: session.user.name || prev.name,
-        email: session.user.email || prev.email,
+        name: session.user?.name || prev.name,
+        email: session.user?.email || prev.email,
       }));
     }
   }, [session, isOpen]);

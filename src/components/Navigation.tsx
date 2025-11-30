@@ -73,6 +73,17 @@ export function Navigation() {
               )}
             </button>
 
+            {/* Admin Link - Only show for admin users */}
+            {session?.user?.email === "admin@brewhouse.com" && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-2 px-3 py-2 text-coffee-cream hover:text-gold-accent font-medium transition-colors"
+              >
+                <Shield size={16} />
+                Admin
+              </Link>
+            )}
+
             {session ? (
               <div className="flex items-center gap-4">
                 <span className="text-coffee-cream">
@@ -169,6 +180,18 @@ export function Navigation() {
                     </span>
                   )}
                 </button>
+
+                {/* Mobile Admin Link - Only show for admin users */}
+                {session?.user?.email === "admin@brewhouse.com" && (
+                  <Link
+                    href="/admin"
+                    className="flex items-center gap-3 px-3 py-2 text-coffee-cream hover:text-gold-accent font-medium"
+                    onClick={toggleMenu}
+                  >
+                    <Shield size={20} />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                )}
               </div>
 
               {/* Mobile Auth */}
