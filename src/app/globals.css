@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --color-coffee-dark: #2C1810;
+  --color-coffee-medium: #4A2C20;
+  --color-coffee-light: #8D6E63;
+  --color-coffee-cream: #D7CCC8;
+
+  --color-gold-accent: #D4AF37;
+  --color-gold-light: #F4E5BC;
+
+  --font-serif: var(--font-playfair), serif;
+  --font-sans: var(--font-inter), sans-serif;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-spin-slow: spin 12s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+}
+
+@layer components {
+  .btn-primary {
+    background-image: linear-gradient(to right, var(--color-coffee-medium), var(--color-coffee-dark));
+    color: var(--color-gold-light);
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    transition: all 300ms;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+  .btn-primary:hover {
+    background-image: linear-gradient(to right, var(--color-coffee-light), var(--color-coffee-medium));
+    box-shadow: 0 10px 15px -3px rgba(44, 24, 16, 0.3);
+    transform: translateY(-0.25rem);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .card {
+    background-color: rgba(44, 24, 16, 0.8);
+    backdrop-filter: blur(12px);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transition: all 300ms;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+  }
+  .card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2C1810;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 5px;
+  border: 2px solid #2C1810;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F4E5BC;
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  .text-shadow-lg {
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  }
+}
