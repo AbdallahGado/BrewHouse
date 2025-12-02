@@ -56,8 +56,14 @@ export function Testimonials() {
   };
 
   return (
-    <section className="py-20 px-8 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-coffee-dark relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-accent/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-coffee-light/5 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -65,10 +71,13 @@ export function Testimonials() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="mb-4 text-3xl md:text-4xl font-bold">
+          <span className="text-gold-accent font-serif font-medium tracking-widest uppercase mb-4 block">
+            Testimonials
+          </span>
+          <h2 className="mb-6 text-4xl md:text-5xl font-serif font-bold text-white">
             What Our Customers Say
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+          <p className="text-coffee-cream/80 max-w-2xl mx-auto text-lg font-light">
             Don't just take our word for it. Here's what our community of coffee
             lovers has to say.
           </p>
@@ -84,34 +93,37 @@ export function Testimonials() {
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
-              className="bg-gray-50 rounded-2xl p-8 relative shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 relative hover:border-gold-accent/30 transition-all duration-300 group"
               variants={itemVariants}
+              whileHover={{ y: -5 }}
             >
               <Quote
-                className="absolute top-4 right-4 text-amber-200 opacity-50"
+                className="absolute top-6 right-6 text-gold-accent/20 group-hover:text-gold-accent/40 transition-colors"
                 size={40}
               />
               <div className="flex items-center gap-4 mb-6">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full object-cover"
-                />
+                <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gold-accent/20 group-hover:border-gold-accent transition-colors">
+                  <img
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
                 <div>
-                  <h4 className="font-semibold text-lg">{testimonial.name}</h4>
-                  <p className="text-gray-600 text-sm">{testimonial.role}</p>
+                  <h4 className="font-serif font-bold text-lg text-gold-light">{testimonial.name}</h4>
+                  <p className="text-coffee-cream/60 text-sm uppercase tracking-wider">{testimonial.role}</p>
                 </div>
               </div>
               <div className="flex mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <Star
                     key={i}
-                    size={18}
-                    className="text-amber-400 fill-current"
+                    size={16}
+                    className="text-gold-accent fill-current"
                   />
                 ))}
               </div>
-              <p className="text-gray-700 leading-relaxed italic">
+              <p className="text-coffee-cream/80 leading-relaxed italic font-light">
                 "{testimonial.content}"
               </p>
             </motion.div>

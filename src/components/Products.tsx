@@ -9,28 +9,34 @@ import { Star, Plus } from "lucide-react";
 
 const products = [
   {
+    id: "artisan-roast",
     name: "Artisan Roast",
     description: "Rich and bold flavors from our signature roast process.",
     image:
       "https://images.unsplash.com/photo-1672570050756-4f1953bde478?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBiZWFucyUyMHJvYXN0ZWR8ZW58MXx8fHwxNzY0Mjc0MDIxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    price: "$12.99",
+    price: 12.99,
     rating: 4.8,
+    isService: false,
   },
   {
+    id: "espresso-bar",
     name: "Espresso Bar",
     description: "Premium espresso drinks crafted by expert baristas.",
     image:
       "https://images.unsplash.com/photo-1607618421926-b72c6a99c342?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlc3ByZXNzbyUyMG1hY2hpbmUlMjBiYXJpc3RhfGVufDF8fHx8MTc2NDMwMjE2OHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    price: "$4.99",
+    price: 4.99,
     rating: 4.9,
+    isService: false,
   },
   {
+    id: "cozy-cafe",
     name: "Cozy Cafe",
     description: "Visit our welcoming space for a relaxing coffee experience.",
     image:
       "https://images.unsplash.com/photo-1593536488177-1eb3c2d4e3d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWZlJTIwaW50ZXJpb3IlMjBjb3p5fGVufDF8fHx8MTc2NDI1MTE5Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    price: "Visit Us",
+    price: 0,
     rating: 4.7,
+    isService: true,
   },
 ];
 

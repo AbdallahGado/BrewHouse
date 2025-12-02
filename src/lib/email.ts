@@ -1,6 +1,12 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+if (!resendApiKey) {
+  throw new Error(
+    "RESEND_API_KEY is not set. Please check your environment variables."
+  );
+}
+const resend = new Resend(resendApiKey);
 
 export async function sendReservationEmail(data: {
   name: string;
@@ -11,8 +17,9 @@ export async function sendReservationEmail(data: {
   guests: number;
 }) {
   try {
+    console.log("Sending email with data:", data);
     const { data: emailData, error } = await resend.emails.send({
-      from: 'BrewHouse <onboarding@resend.dev>', // Use your verified domain
+      from: "BrewHouse <onboarding@resend.dev>", // Replace with your verified domain email after verifying your domain on Resend
       to: [data.email],
       subject: `Reservation Confirmation - ${data.date} at ${data.time}`,
       html: `
@@ -53,7 +60,9 @@ export async function sendReservationEmail(data: {
                   </div>
                   <div class="detail-row">
                     <span class="label">Party Size:</span>
-                    <span>${data.guests} ${data.guests === 1 ? 'guest' : 'guests'}</span>
+                    <span>${data.guests} ${
+        data.guests === 1 ? "guest" : "guests"
+      }</span>
                   </div>
                   <div class="detail-row">
                     <span class="label">Contact:</span>
@@ -87,13 +96,13 @@ export async function sendReservationEmail(data: {
     });
 
     if (error) {
-      console.error('Error sending email:', error);
-      return { success: false, error };
+      console.error("Error details:", error);
+      return { success: false, error: error.message || "Unknown error" };
     }
 
     return { success: true, data: emailData };
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
     return { success: false, error };
   }
 }

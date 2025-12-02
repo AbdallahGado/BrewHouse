@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { toast } from "sonner";
 
 export interface CartItem {
@@ -24,9 +24,38 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_STORAGE_KEY = "brewhouse_cart";
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+        setItems(parsedCart);
+      }
+    } catch (error) {
+      console.error("Failed to load cart from localStorage:", error);
+    } finally {
+      setIsInitialized(true);
+    }
+  }, []);
+
+  // Save cart to localStorage whenever it changes (after initialization)
+  useEffect(() => {
+    if (isInitialized) {
+      try {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
+      } catch (error) {
+        console.error("Failed to save cart to localStorage:", error);
+      }
+    }
+  }, [items, isInitialized]);
 
   const addItem = (newItem: Omit<CartItem, "quantity">) => {
     setItems((currentItems) => {
@@ -46,6 +75,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const removeItem = (id: string) => {
     setItems((currentItems) => currentItems.filter((item) => item.id !== id));
+    toast.info("Item removed from cart");
   };
 
   const updateQuantity = (id: string, delta: number) => {
@@ -62,6 +92,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => {
     setItems([]);
+    localStorage.removeItem(CART_STORAGE_KEY);
+    toast.success("Cart cleared");
   };
 
   const total = items.reduce((sum, item) => {

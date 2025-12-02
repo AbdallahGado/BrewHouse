@@ -1,35 +1,73 @@
-import { MetadataRoute } from "next";
+import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://brewhouse.com'; // Replace with your actual domain
+
   return [
     {
-      url: "https://brewhouse.com",
+      url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: "yearly",
+      changeFrequency: 'daily',
       priority: 1,
     },
     {
-      url: "https://brewhouse.com/about",
+      url: `${baseUrl}/menu`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: "https://brewhouse.com/menu",
+      url: `${baseUrl}/contact`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
     {
-      url: "https://brewhouse.com/gallery",
+      url: `${baseUrl}/gallery`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/team`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/orders`,
+      lastModified: new Date(),
+      changeFrequency: 'always',
       priority: 0.5,
     },
     {
-      url: "https://brewhouse.com/contact",
+      url: `${baseUrl}/favorites`,
       lastModified: new Date(),
-      changeFrequency: "yearly",
+      changeFrequency: 'always',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/profile`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/rewards`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 0.5,
     },
   ];

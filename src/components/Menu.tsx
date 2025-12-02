@@ -1,10 +1,12 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Star, Clock, ChefHat, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { Star, Clock, ChefHat, ShoppingBag, Heart } from "lucide-react";
+import { useState, useCallback } from "react";
 import { CustomOrderModal } from "./CustomOrderModal";
 import { useCart } from "@/context/CartContext";
+import { useFavorites } from "@/context/FavoritesContext";
+import { SearchBar } from "./SearchBar";
 
 const menuCategories = [
   {
@@ -125,6 +127,24 @@ const menuCategories = [
         time: "3 min",
         popular: false,
       },
+      {
+        name: "Sumatra Mandheling",
+        description:
+          "Indonesian coffee with earthy, herbal notes and full body, perfect for those who prefer low acidity",
+        price: "$6.25",
+        rating: 4.8,
+        time: "4 min",
+        popular: false,
+      },
+      {
+        name: "Guatemala Antigua",
+        description:
+          "Complex and spicy with chocolate undertones, grown in volcanic soil for unique flavor profile",
+        price: "$6.00",
+        rating: 4.7,
+        time: "4 min",
+        popular: false,
+      },
     ],
   },
   {
@@ -156,6 +176,51 @@ const menuCategories = [
         price: "$6.00",
         rating: 4.7,
         time: "Ready",
+        popular: false,
+      },
+      {
+        name: "Iced Caffe Latte",
+        description:
+          "Rich espresso poured over ice with cold milk, perfectly balanced and refreshing",
+        price: "$5.25",
+        rating: 4.8,
+        time: "3 min",
+        popular: true,
+      },
+      {
+        name: "Vanilla Sweet Cream Cold Brew",
+        description:
+          "Smooth cold brew topped with house-made vanilla sweet cream for a luxurious finish",
+        price: "$6.25",
+        rating: 4.9,
+        time: "Ready",
+        popular: true,
+      },
+      {
+        name: "Iced Mocha",
+        description:
+          "Rich chocolate and espresso blend served over ice with milk and whipped cream",
+        price: "$6.00",
+        rating: 4.7,
+        time: "4 min",
+        popular: false,
+      },
+      {
+        name: "Frappé",
+        description:
+          "Blended ice drink with espresso, milk, and your choice of flavor - coffee or mocha",
+        price: "$6.75",
+        rating: 4.6,
+        time: "5 min",
+        popular: false,
+      },
+      {
+        name: "Iced Chai Latte",
+        description:
+          "Spiced chai tea blended with milk and ice for a refreshing twist on a classic",
+        price: "$5.75",
+        rating: 4.8,
+        time: "3 min",
         popular: false,
       },
     ],
@@ -191,39 +256,113 @@ const menuCategories = [
         time: "Ready",
         popular: false,
       },
+      {
+        name: "Almond Croissant",
+        description:
+          "Classic croissant filled with almond cream and topped with sliced almonds and powdered sugar",
+        price: "$4.50",
+        rating: 4.9,
+        time: "Ready",
+        popular: true,
+      },
+      {
+        name: "Cinnamon Roll",
+        description:
+          "Warm, gooey cinnamon roll with cream cheese frosting - a breakfast favorite",
+        price: "$4.75",
+        rating: 4.8,
+        time: "Ready",
+        popular: true,
+      },
+      {
+        name: "Banana Bread",
+        description:
+          "Moist and flavorful banana bread made with ripe bananas and a hint of vanilla",
+        price: "$3.75",
+        rating: 4.7,
+        time: "Ready",
+        popular: false,
+      },
+      {
+        name: "Scone - Cranberry Orange",
+        description:
+          "Buttery scone studded with cranberries and orange zest, lightly glazed",
+        price: "$3.50",
+        rating: 4.6,
+        time: "Ready",
+        popular: false,
+      },
+      {
+        name: "Danish Pastry",
+        description:
+          "Flaky pastry filled with seasonal fruit jam and topped with sweet glaze",
+        price: "$4.25",
+        rating: 4.7,
+        time: "Ready",
+        popular: false,
+      },
+      {
+        name: "Biscotti",
+        description:
+          "Twice-baked Italian cookie with almonds - perfect for dipping in your coffee",
+        price: "$2.75",
+        rating: 4.5,
+        time: "Ready",
+        popular: false,
+      },
     ],
   },
 ];
 
 export function Menu() {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const [isCustomOrderOpen, setIsCustomOrderOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [customOrderOpen, setCustomOrderOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { addItem } = useCart();
+  const { isFavorite, toggleFavorite } = useFavorites();
+
+  const allItems = menuCategories.flatMap((category) =>
+    category.items.map((item) => ({ ...item, category: category.title }))
+  );
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
+
+  const filteredItems = allItems.filter((item) => {
+    const matchesCategory = activeCategory === "all" || item.category === menuCategories.find(c => c.id === activeCategory)?.title;
+    const matchesSearch = searchQuery === "" || 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.category.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const categories = [
+    { id: "all", title: "All Items" },
+    ...menuCategories.map(cat => ({ id: cat.id, title: cat.title }))
+  ];
 
   const handleAddToCart = (item: any) => {
     addItem({
-      id: item.name,
+      id: `${item.category}-${item.name}`,
       name: item.name,
       price: item.price,
     });
   };
 
-  const filteredCategories =
-    activeFilter === "all"
-      ? menuCategories
-      : menuCategories.filter((cat) => cat.id === activeFilter);
-
   return (
-    <section
-      id="menu"
-      className="py-20 px-8 bg-linear-to-br from-white via-amber-50 to-orange-50"
-    >
+    <section className="py-20 px-4 bg-stone-50 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-accent/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+      </div>
+
       <CustomOrderModal
-        isOpen={isCustomOrderOpen}
-        onClose={() => setIsCustomOrderOpen(false)}
+        isOpen={customOrderOpen}
+        onClose={() => setCustomOrderOpen(false)}
       />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
@@ -231,145 +370,156 @@ export function Menu() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-linear-to-r from-amber-800 to-orange-800 bg-clip-text text-transparent">
+          <span className="text-gold-accent font-serif font-medium tracking-widest uppercase mb-4 block">
             Our Menu
+          </span>
+          <h2 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-coffee-dark">
+            Artisan Coffee Selection
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
-            Discover our carefully crafted selection of premium coffees,
-            specialty drinks, and fresh pastries
+          <p className="text-xl text-coffee-medium max-w-2xl mx-auto">
+            Ethically sourced, expertly roasted, served with passion
           </p>
-
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {[
-              { id: "all", label: "All Items" },
-              { id: "specialty", label: "Specialty" },
-              { id: "hot", label: "Hot Coffee" },
-              { id: "cold", label: "Cold Drinks" },
-              { id: "pastry", label: "Pastries" },
-            ].map((filter) => (
-              <button
-                key={filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
-                  activeFilter === filter.id
-                    ? "bg-amber-600 text-white shadow-lg scale-105"
-                    : "bg-white text-gray-600 hover:bg-amber-50"
-                }`}
-              >
-                {filter.label}
-              </button>
-            ))}
-          </div>
         </motion.div>
 
-        <div className="space-y-16 min-h-[600px]">
+        {/* Search Bar */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <SearchBar 
+            placeholder="Search menu items..." 
+            onSearch={handleSearch}
+          />
+        </div>
+
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setActiveCategory(category.id)}
+              className={`px-8 py-3 rounded-full font-medium transition-all duration-300 border ${
+                activeCategory === category.id
+                  ? "bg-coffee-dark text-gold-accent border-coffee-dark shadow-lg scale-105"
+                  : "bg-white text-coffee-medium border-coffee-light/20 hover:border-gold-accent hover:text-coffee-dark"
+              }`}
+            >
+              {category.title}
+            </button>
+          ))}
+        </div>
+
+        {/* Items Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]">
           <AnimatePresence mode="wait">
-            {filteredCategories.map((category) => (
+            {filteredItems.length === 0 ? (
               <motion.div
-                key={category.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="col-span-full text-center py-20"
               >
-                <h3 className="text-3xl font-bold text-amber-900 mb-8 text-center">
-                  {category.title}
-                </h3>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {category.items.map((item, itemIndex) => (
-                    <motion.div
-                      key={item.name}
-                      className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5, delay: itemIndex * 0.1 }}
-                      viewport={{ once: true }}
-                      whileHover={{ y: -5 }}
-                    >
-                      <div className="relative p-6">
-                        {item.popular && (
-                          <div className="absolute top-4 right-4 bg-linear-to-r from-amber-500 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                            <Star size={12} className="fill-current" />
-                            Popular
-                          </div>
-                        )}
-
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1 pr-4">
-                            <h4 className="text-xl font-bold text-gray-900 group-hover:text-amber-600 transition-colors">
-                              {item.name}
-                            </h4>
-                            <div className="flex items-center gap-2 mt-2">
-                              <div className="flex items-center gap-1">
-                                <Star
-                                  size={14}
-                                  className="text-amber-400 fill-current"
-                                />
-                                <span className="text-sm font-medium text-gray-600">
-                                  {item.rating}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1 text-gray-500">
-                                <Clock size={14} />
-                                <span className="text-sm">{item.time}</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className={`text-2xl font-bold text-amber-600 ${
-                              item.popular ? "mt-8" : ""
-                            }`}
-                          >
-                            {item.price}
-                          </div>
-                        </div>
-
-                        <p className="text-gray-600 leading-relaxed mb-6">
-                          {item.description}
-                        </p>
-
-                        <motion.button
-                          className="w-full bg-linear-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={() => handleAddToCart(item)}
-                        >
-                          <ShoppingBag size={18} />
-                          Add to Order
-                        </motion.button>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                <p className="text-coffee-medium text-lg">No items found matching your search.</p>
               </motion.div>
-            ))}
+            ) : (
+              filteredItems.map((item, index) => (
+                <motion.div
+                  key={`${item.category}-${item.name}`}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  className="bg-white rounded-2xl p-6 shadow-sm border border-coffee-light/10 hover:shadow-xl transition-all duration-300 relative group"
+                >
+                  {item.popular && (
+                    <div className="absolute top-4 right-4 bg-gold-accent text-coffee-dark text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-md">
+                      <Star size={12} className="fill-current" />
+                      Popular
+                    </div>
+                  )}
+
+                  {/* Favorite Button */}
+                  <button
+                    onClick={() => toggleFavorite(`${item.category}-${item.name}`, item.name)}
+                    className="absolute top-4 left-4 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all z-10"
+                    aria-label={isFavorite(`${item.category}-${item.name}`) ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    <Heart 
+                      size={18} 
+                      className={isFavorite(`${item.category}-${item.name}`) ? "fill-red-500 text-red-500" : "text-coffee-medium hover:text-red-500"}
+                    />
+                  </button>
+
+                  <div className="flex justify-between items-start mb-4 mt-8">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-serif font-bold text-coffee-dark mb-2">
+                        {item.name}
+                      </h3>
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1">
+                          <Star size={14} className="text-gold-accent fill-current" />
+                          <span className="text-sm font-medium text-coffee-medium">
+                            {item.rating}
+                          </span>
+                        </div>
+                        <div className="w-1 h-1 rounded-full bg-coffee-light/30" />
+                        <div className="flex items-center gap-1 text-coffee-medium/70">
+                          <Clock size={14} />
+                          <span className="text-sm">{item.time}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-2xl font-serif font-bold text-gold-accent">
+                      {item.price}
+                    </div>
+                  </div>
+
+                  <p className="text-coffee-medium/80 leading-relaxed mb-6">
+                    {item.description}
+                  </p>
+
+                  <motion.button
+                    className="w-full bg-coffee-dark text-white hover:bg-gold-accent hover:text-coffee-dark py-3 px-6 rounded-xl font-bold transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleAddToCart(item)}
+                  >
+                    <ShoppingBag size={18} />
+                    Add to Order
+                  </motion.button>
+                </motion.div>
+              ))
+            )}
           </AnimatePresence>
         </div>
 
+        {/* Custom Order CTA */}
         <motion.div
-          className="text-center mt-16"
+          className="text-center mt-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <div className="bg-linear-to-r from-amber-600 to-orange-600 rounded-2xl p-8 text-white max-w-2xl mx-auto">
-            <ChefHat size={48} className="mx-auto mb-4 text-amber-200" />
-            <h3 className="text-2xl font-bold mb-4">Custom Orders Available</h3>
-            <p className="mb-6 opacity-90">
-              Can't find what you're looking for? Our baristas can create custom
-              drinks tailored to your taste preferences. Just ask!
-            </p>
-            <motion.button
-              className="bg-white text-amber-600 px-8 py-3 rounded-xl font-bold hover:bg-amber-50 transition-colors shadow-lg"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsCustomOrderOpen(true)}
-            >
-              Request Custom Order
-            </motion.button>
+          <div className="bg-coffee-dark rounded-3xl p-10 text-white max-w-3xl mx-auto relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gold-accent/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold-accent/10 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" />
+            
+            <div className="relative z-10">
+              <div className="w-16 h-16 bg-gold-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 text-gold-accent">
+                <ChefHat size={32} />
+              </div>
+              <h3 className="text-3xl font-serif font-bold mb-4 text-gold-light">Custom Orders Available</h3>
+              <p className="mb-8 text-coffee-cream/80 text-lg font-light max-w-xl mx-auto">
+                Can't find what you're looking for? Our expert baristas can create custom
+                drinks tailored to your specific taste preferences. Just ask!
+              </p>
+              <motion.button
+                className="bg-gold-accent text-coffee-dark px-10 py-4 rounded-full font-bold hover:bg-white hover:text-coffee-dark transition-all duration-300 shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setCustomOrderOpen(true)}
+              >
+                Request Custom Order
+              </motion.button>
+            </div>
           </div>
         </motion.div>
       </div>

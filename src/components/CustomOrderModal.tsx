@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Coffee, Droplets, Candy, ChevronRight, Check } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useCart } from "../context/CartContext";
 
 interface CustomOrderModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ const steps = [
 export function CustomOrderModal({ isOpen, onClose }: CustomOrderModalProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [selections, setSelections] = useState<Record<string, string>>({});
+  const { addItem } = useCart();
 
   const handleSelect = (option: string) => {
     setSelections({ ...selections, [steps[currentStep].id]: option });
@@ -43,10 +45,15 @@ export function CustomOrderModal({ isOpen, onClose }: CustomOrderModalProps) {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Submit order
-      toast.success("Custom drink created!", {
-        description: `A ${selections.base} with ${selections.milk} and ${selections.flavor} syrup.`,
+      // Create custom drink name and add to cart
+      const customDrinkName = `Custom: ${selections.base} with ${selections.milk}${selections.flavor && selections.flavor !== "None" ? ` & ${selections.flavor}` : ""}`;
+      
+      addItem({
+        id: `custom-${Date.now()}`,
+        name: customDrinkName,
+        price: "$5.99",
       });
+      
       onClose();
       setCurrentStep(0);
       setSelections({});

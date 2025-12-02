@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Instagram, Twitter, Linkedin } from "lucide-react";
+import { Instagram, Twitter } from "lucide-react";
 
 const team = [
   {
@@ -27,8 +27,14 @@ const team = [
 
 export function Team() {
   return (
-    <section className="py-20 px-8 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-coffee-dark relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gold-accent/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-coffee-light/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -36,10 +42,13 @@ export function Team() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-linear-to-r from-amber-800 to-orange-800 bg-clip-text text-transparent">
+          <span className="text-gold-accent font-serif font-medium tracking-widest uppercase mb-4 block">
+            Our Team
+          </span>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 text-white">
             Meet the Experts
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-coffee-cream/80 max-w-2xl mx-auto font-light">
             The passionate people behind your perfect cup of coffee.
           </p>
         </motion.div>
@@ -54,29 +63,31 @@ export function Team() {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               viewport={{ once: true }}
             >
-              <div className="relative mb-6 inline-block">
-                <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-amber-100 group-hover:border-amber-600 transition-colors duration-300">
+              <div className="relative mb-8 inline-block">
+                <div className="w-56 h-56 rounded-full overflow-hidden border-4 border-gold-accent/20 group-hover:border-gold-accent transition-colors duration-500 relative z-10">
                   <ImageWithFallback
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale group-hover:grayscale-0"
                   />
                 </div>
-                <div className="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 translate-y-2 group-hover:translate-y-0">
-                  <div className="flex gap-2">
-                    <a href="#" className="text-gray-400 hover:text-amber-600 transition-colors">
-                      <Instagram size={16} />
+                <div className="absolute inset-0 rounded-full bg-gold-accent/10 blur-xl -z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="absolute bottom-0 right-0 bg-gold-accent p-3 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0 z-20">
+                  <div className="flex gap-3">
+                    <a href="#" className="text-coffee-dark hover:text-white transition-colors">
+                      <Instagram size={18} />
                     </a>
-                    <a href="#" className="text-gray-400 hover:text-amber-600 transition-colors">
-                      <Twitter size={16} />
+                    <a href="#" className="text-coffee-dark hover:text-white transition-colors">
+                      <Twitter size={18} />
                     </a>
                   </div>
                 </div>
               </div>
               
-              <h3 className="text-2xl font-bold text-gray-900 mb-1">{member.name}</h3>
-              <p className="text-amber-600 font-medium mb-4">{member.role}</p>
-              <p className="text-gray-600 leading-relaxed max-w-xs mx-auto">
+              <h3 className="text-2xl font-serif font-bold text-gold-light mb-2">{member.name}</h3>
+              <p className="text-gold-accent font-medium mb-4 uppercase tracking-wider text-sm">{member.role}</p>
+              <p className="text-coffee-cream/70 leading-relaxed max-w-xs mx-auto font-light">
                 {member.bio}
               </p>
             </motion.div>

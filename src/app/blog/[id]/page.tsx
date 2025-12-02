@@ -1,130 +1,162 @@
 "use client";
 
+import { blogPosts } from "@/data/blogPosts";
 import { motion } from "framer-motion";
-import { ImageWithFallback } from "@/components/figma/ImageWithFallback";
-import { Calendar, User, ArrowLeft } from "lucide-react";
+import { Calendar, User, Clock, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { useParams } from "next/navigation";
+import ReactMarkdown from "react-markdown";
 
-// Mock data - in a real app this would come from a CMS or API
-const posts = {
-  "pour-over-guide": {
-    title: "The Art of Pour Over Coffee",
-    date: "Oct 15, 2023",
-    author: "Sarah Chen",
-    image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwb3VyJTIwb3ZlciUyMGNvZmZlZXxlbnwxfHx8fDE3NjQyNDIzMzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    content: `
-      <p class="mb-6">Pour over coffee is a manual brewing method that allows for precise control over every variable of the brewing process. Unlike automatic drip machines, the pour over method involves pouring hot water over coffee grounds in a filter.</p>
-      
-      <h3 class="text-2xl font-bold mb-4 text-amber-900">Why Pour Over?</h3>
-      <p class="mb-6">This method is celebrated for its ability to highlight the intricate flavors and aromas of single-origin beans. The slow, steady pour ensures even saturation of the grounds, resulting in a clean, complex cup.</p>
-      
-      <h3 class="text-2xl font-bold mb-4 text-amber-900">The Essentials</h3>
-      <ul class="list-disc pl-6 mb-6 space-y-2">
-        <li>Freshly roasted coffee beans</li>
-        <li>Burr grinder</li>
-        <li>Gooseneck kettle</li>
-        <li>Scale</li>
-        <li>Dripper (V60, Chemex, or Kalita Wave)</li>
-      </ul>
-      
-      <p>Mastering the pour over takes practice, but the reward is a cup of coffee that truly honors the bean's origin.</p>
-    `
-  },
-  "roast-levels": {
-    title: "Understanding Coffee Roast Levels",
-    date: "Oct 22, 2023",
-    author: "Michael Chen",
-    image: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBiZWFucyUyMHJvYXN0ZWR8ZW58MXx8fHwxNzY0MjQyMzM2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    content: `
-      <p class="mb-6">Coffee roasting is both an art and a science. The roast level significantly impacts the flavor profile, acidity, and body of the final cup.</p>
-      
-      <h3 class="text-2xl font-bold mb-4 text-amber-900">Light Roast</h3>
-      <p class="mb-6">Light roasts are roasted for a shorter time, preserving the unique characteristics of the bean's origin. They often have higher acidity and floral or fruity notes.</p>
-      
-      <h3 class="text-2xl font-bold mb-4 text-amber-900">Medium Roast</h3>
-      <p class="mb-6">Medium roasts offer a balance between the bean's natural flavor and the roast character. They are often sweeter and have a more rounded body.</p>
-      
-      <h3 class="text-2xl font-bold mb-4 text-amber-900">Dark Roast</h3>
-      <p class="mb-6">Dark roasts are roasted longer, resulting in bold, smoky, and chocolatey flavors. The acidity is low, and the body is full.</p>
-    `
-  },
-  "sustainability": {
-    title: "Sustainability in Coffee Farming",
-    date: "Nov 05, 2023",
-    author: "Sarah Chen",
-    image: "https://images.unsplash.com/photo-1511537632536-b7a575805d93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBmYXJtfGVufDF8fHx8MTc2NDI0MjMzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
-    content: `
-      <p class="mb-6">At BrewHouse, we believe that great coffee starts with great relationships. We work directly with farmers who prioritize sustainable and ethical farming practices.</p>
-      
-      <h3 class="text-2xl font-bold mb-4 text-amber-900">Ethical Sourcing</h3>
-      <p class="mb-6">We pay fair prices to our partner farmers, ensuring they can invest in their communities and improve their farming techniques.</p>
-      
-      <h3 class="text-2xl font-bold mb-4 text-amber-900">Environmental Impact</h3>
-      <p class="mb-6">We support shade-grown coffee, which preserves biodiversity and protects the soil. We also encourage water conservation and organic farming methods.</p>
-    `
-  }
-};
-
-export default function BlogPost() {
+export default function BlogPostPage() {
   const params = useParams();
-  const slug = params.id as string;
-  const post = posts[slug as keyof typeof posts];
+  const postId = params.id as string;
+  
+  const post = blogPosts.find(p => p.id === postId || p.slug === postId);
 
   if (!post) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
-          <Link href="/" className="text-amber-600 hover:underline">Return Home</Link>
+      <div className="min-h-screen bg-stone-50 pt-24 pb-12 px-4">
+        <div className="max-w-2xl mx-auto text-center py-20">
+          <h1 className="text-3xl font-serif font-bold text-coffee-dark mb-4">
+            Post Not Found
+          </h1>
+          <Link
+            href="/blog"
+            className="inline-block bg-gold-accent text-coffee-dark px-8 py-3 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300"
+          >
+            Back to Blog
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-stone-50">
-      <div className="relative h-[60vh]">
-        <ImageWithFallback
-          src={post.image}
-          alt={post.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <div className="text-center text-white p-4">
-            <motion.h1 
-              className="text-4xl md:text-6xl font-bold font-serif mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              {post.title}
-            </motion.h1>
-            <motion.div 
-              className="flex items-center justify-center gap-6 text-sm md:text-base"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <span className="flex items-center gap-2"><Calendar size={16} /> {post.date}</span>
-              <span className="flex items-center gap-2"><User size={16} /> {post.author}</span>
-            </motion.div>
-          </div>
+    <>
+      <article className="min-h-screen bg-stone-50 pt-24 pb-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Link
+            href="/blog"
+            className="inline-flex items-center gap-2 text-coffee-medium hover:text-coffee-dark mb-8 transition-colors"
+          >
+            <ArrowLeft size={20} />
+            Back to Blog
+          </Link>
+
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-12"
+          >
+            <div className="mb-6">
+              <span className="inline-block bg-gold-accent/10 text-gold-accent px-4 py-1 rounded-full text-sm font-medium mb-4">
+                {post.category}
+              </span>
+              <h1 className="text-4xl md:text-5xl font-serif font-bold text-coffee-dark mb-4">
+                {post.title}
+              </h1>
+              <p className="text-xl text-coffee-medium mb-6">{post.excerpt}</p>
+              
+              <div className="flex flex-wrap items-center gap-6 text-sm text-coffee-medium">
+                <div className="flex items-center gap-2">
+                  <User size={16} />
+                  <span>{post.author.name}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar size={16} />
+                  <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Clock size={16} />
+                  <span>{post.readTime}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Featured Image */}
+            <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-lg mb-8">
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </motion.div>
+
+          {/* Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="prose prose-lg max-w-none
+              prose-headings:font-serif prose-headings:text-coffee-dark
+              prose-p:text-coffee-dark prose-p:leading-relaxed
+              prose-a:text-gold-accent prose-a:no-underline hover:prose-a:underline
+              prose-strong:text-coffee-dark prose-strong:font-bold
+              prose-li:text-coffee-dark
+              prose-h2:text-3xl prose-h2:mb-4 prose-h2:mt-8
+              prose-h3:text-2xl prose-h3:mb-3 prose-h3:mt-6"
+          >
+            <ReactMarkdown>{post.content}</ReactMarkdown>
+          </motion.div>
+
+          {/* Author Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-12 bg-white rounded-2xl p-8 border border-coffee-light/10"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 rounded-full bg-gold-accent/10 flex items-center justify-center">
+                <User size={32} className="text-gold-accent" />
+              </div>
+              <div>
+                <p className="font-bold text-coffee-dark text-lg">{post.author.name}</p>
+                <p className="text-coffee-medium">{post.author.role}</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Related Posts */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mt-12"
+          >
+            <h2 className="text-2xl font-serif font-bold text-coffee-dark mb-6">
+              More Articles
+            </h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              {blogPosts.filter(p => p.id !== post.id).slice(0, 2).map((relatedPost) => (
+                <Link
+                  key={relatedPost.id}
+                  href={`/blog/${relatedPost.id}`}
+                  className="group bg-white rounded-2xl overflow-hidden border border-coffee-light/10 hover:shadow-xl transition-all"
+                >
+                  <div className="aspect-video overflow-hidden">
+                    <img
+                      src={relatedPost.image}
+                      alt={relatedPost.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="font-serif font-bold text-coffee-dark mb-2 group-hover:text-gold-accent transition-colors">
+                      {relatedPost.title}
+                    </h3>
+                    <p className="text-sm text-coffee-medium">{relatedPost.excerpt}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </motion.div>
         </div>
-      </div>
-
-      <article className="max-w-3xl mx-auto px-6 py-16">
-        <Link href="/#blog" className="inline-flex items-center gap-2 text-amber-600 font-medium mb-8 hover:-translate-x-1 transition-transform">
-          <ArrowLeft size={20} /> Back to Blog
-        </Link>
-        
-        <div 
-          className="prose prose-lg prose-stone max-w-none"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
       </article>
-
       <Footer />
-    </main>
+    </>
   );
 }

@@ -8,6 +8,7 @@ import { useCart } from "../context/CartContext";
 export function CartSidebar() {
   const { items, removeItem, updateQuantity, total, isOpen, setIsOpen } =
     useCart();
+  const router = useRouter();
 
   return (
     <AnimatePresence>
@@ -18,14 +19,14 @@ export function CartSidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60]"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-60"
           />
           <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-[70] flex flex-col"
+            className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-70 flex flex-col"
           >
             <div className="p-6 bg-coffee-dark text-white flex justify-between items-center">
               <div className="flex items-center gap-3">
@@ -62,11 +63,6 @@ export function CartSidebar() {
                     key={item.id}
                     className="flex gap-4 bg-gray-50 p-4 rounded-xl"
                   >
-                    {/* Placeholder for item image if we add images to cart items later */}
-                    <div className="w-20 h-20 bg-white rounded-lg flex items-center justify-center shrink-0 border border-gray-100">
-                      <ShoppingBag className="text-gray-300" />
-                    </div>
-
                     <div className="flex-1 flex flex-col justify-between">
                       <div className="flex justify-between items-start">
                         <h3 className="font-bold text-gray-900">{item.name}</h3>

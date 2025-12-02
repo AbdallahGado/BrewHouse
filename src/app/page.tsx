@@ -14,6 +14,8 @@ export default function Home() {
     <main className="min-h-screen">
       <Hero onBookTable={() => setIsReservationOpen(true)} />
       <Features />
+
+
       <Footer />
       <ScrollToTop />
       <ReservationModal

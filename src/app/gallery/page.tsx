@@ -56,9 +56,12 @@ const allGalleryImages = [
 ];
 
 export default function GalleryPage() {
-  const [selectedImage, setSelectedImage] = useState<null | typeof allGalleryImages[0]>(null);
+  const [selectedImage, setSelectedImage] = useState<
+    null | (typeof allGalleryImages)[0]
+  >(null);
 
   return (
+    <>
     <main className="min-h-screen pt-24 pb-12 px-8 bg-stone-50">
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -117,12 +120,12 @@ export default function GalleryPage() {
           ))}
         </motion.div>
       </div>
-
+      
       {/* Lightbox Modal */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md"
+            className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -146,18 +149,19 @@ export default function GalleryPage() {
                 alt={selectedImage.alt}
                 className="w-full h-full object-contain"
               />
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
-                <h3 className="text-xl font-bold mb-2">{selectedImage.category}</h3>
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-linear-to-t from-black/80 to-transparent text-white">
+                <h3 className="text-xl font-bold mb-2">
+                  {selectedImage.category}
+                </h3>
                 <p>{selectedImage.alt}</p>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-      
-      <div className="mt-20">
-        <Footer />
-      </div>
     </main>
+
+    <Footer />
+    </>
   );
 }

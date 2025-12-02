@@ -2,6 +2,7 @@
 
 import { Menu } from "@/components/Menu";
 import { Footer } from "@/components/Footer";
+import Image from "next/image";
 
 export default function MenuPage() {
   return (

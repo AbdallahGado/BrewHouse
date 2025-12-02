@@ -5,7 +5,11 @@ import { Navigation } from "../components/Navigation";
 import { Toaster } from "sonner";
 import { AuthProvider } from "../components/AuthProvider";
 import { CartProvider } from "../context/CartContext";
+import { OrderProvider } from "../context/OrderContext";
+import { FavoritesProvider } from "../context/FavoritesContext";
+import { LoyaltyProvider } from "../context/LoyaltyContext";
 import { CartSidebar } from "../components/CartSidebar";
+import { ErrorBoundary } from "../components/ErrorBoundary";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,7 +23,15 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "BrewHouse | Premium Coffee Experience",
-  description: "Experience the finest artisan coffee in a warm, inviting atmosphere.",
+  description: "Experience the finest artisan coffee in a warm, inviting atmosphere. Ethically sourced beans, expertly roasted, served with passion.",
+  keywords: ["coffee", "cafe", "artisan coffee", "specialty coffee", "coffee shop"],
+  openGraph: {
+    title: "BrewHouse | Premium Coffee Experience",
+    description: "Experience the finest artisan coffee in a warm, inviting atmosphere.",
+    type: "website",
+    locale: "en_US",
+    siteName: "BrewHouse Coffee",
+  },
 };
 
 export default function RootLayout({
@@ -32,14 +44,22 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased bg-stone-50 text-stone-900 font-sans`}
       >
-        <AuthProvider>
-          <CartProvider>
-            <Navigation />
-            <CartSidebar />
-            {children}
-            <Toaster position="bottom-right" richColors />
-          </CartProvider>
-        </AuthProvider>
+        <ErrorBoundary>
+          <AuthProvider>
+            <FavoritesProvider>
+              <OrderProvider>
+                <LoyaltyProvider>
+                  <CartProvider>
+                    <Navigation />
+                    <CartSidebar />
+                    {children}
+                    <Toaster position="bottom-right" richColors />
+                  </CartProvider>
+                </LoyaltyProvider>
+              </OrderProvider>
+            </FavoritesProvider>
+          </AuthProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

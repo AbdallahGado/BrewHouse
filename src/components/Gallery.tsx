@@ -2,8 +2,9 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Camera, X } from "lucide-react";
+import { Camera, X, ArrowRight, MapPin } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const galleryImages = [
   {
@@ -54,14 +55,23 @@ const galleryImages = [
 ];
 
 export function Gallery() {
-  const [selectedImage, setSelectedImage] = useState<null | typeof galleryImages[0]>(null);
+  const router = useRouter();
+  const [selectedImage, setSelectedImage] = useState<
+    null | (typeof galleryImages)[0]
+  >(null);
 
   return (
     <section
       id="gallery"
-      className="py-20 px-8 bg-linear-to-br from-gray-50 to-amber-50"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-stone-50 relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Background Elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-accent/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-coffee-light/5 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -69,10 +79,13 @@ export function Gallery() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-linear-to-r from-amber-800 to-orange-800 bg-clip-text text-transparent">
+          <span className="text-gold-accent font-serif font-medium tracking-widest uppercase mb-4 block">
+            Visual Journey
+          </span>
+          <h2 className="text-4xl md:text-5xl font-serif font-bold mb-6 text-coffee-dark">
             Experience BrewHouse
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-coffee-medium max-w-2xl mx-auto font-light leading-relaxed">
             Take a visual journey through our cozy atmosphere, expert
             craftsmanship, and delicious offerings
           </p>
@@ -88,38 +101,36 @@ export function Gallery() {
           {galleryImages.slice(0, 6).map((image, index) => (
             <motion.div
               key={index}
-              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
+              className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer aspect-square"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.02 }}
               onClick={() => setSelectedImage(image)}
             >
-              <div className="aspect-square overflow-hidden">
-                <ImageWithFallback
-                  src={image.src}
-                  alt={image.alt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-              </div>
+              <ImageWithFallback
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
 
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 right-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-coffee-dark/90 via-coffee-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   <div className="flex items-center gap-2 mb-2">
-                    <Camera size={16} className="text-white" />
-                    <span className="text-white text-sm font-medium">
+                    <Camera size={16} className="text-gold-accent" />
+                    <span className="text-gold-accent text-sm font-medium uppercase tracking-wider">
                       {image.category}
                     </span>
                   </div>
-                  <p className="text-white text-sm leading-relaxed">
+                  <p className="text-white text-lg font-serif leading-relaxed">
                     {image.alt}
                   </p>
                 </div>
               </div>
 
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Camera size={20} className="text-amber-600" />
+              <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gold-accent hover:text-coffee-dark text-white">
+                <ArrowRight size={20} className="-rotate-45 group-hover:rotate-0 transition-transform duration-300" />
               </div>
             </motion.div>
           ))}
@@ -132,43 +143,48 @@ export function Gallery() {
           transition={{ duration: 0.5 }}
           viewport={{ once: true }}
         >
-          <a 
-            href="/gallery"
-            className="inline-block border-2 border-amber-600 text-amber-600 px-8 py-3 rounded-full font-bold hover:bg-amber-600 hover:text-white transition-all duration-300"
+          <button
+            onClick={() => router.push("/gallery")}
+            className="inline-block border border-coffee-dark text-coffee-dark px-10 py-3 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300 uppercase tracking-wider text-sm"
           >
             View Full Gallery
-          </a>
+          </button>
         </motion.div>
 
         <motion.div
-          className="text-center mt-16"
+          className="text-center mt-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <div className="bg-white rounded-2xl p-8 shadow-lg max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-amber-900 mb-4">
+          <div className="bg-white rounded-3xl p-10 shadow-xl border border-coffee-light/10 max-w-3xl mx-auto relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gold-light via-gold-accent to-gold-light" />
+            
+            <h3 className="text-3xl font-serif font-bold text-coffee-dark mb-4">
               Visit Us Today
             </h3>
-            <p className="text-gray-700 mb-6">
+            <p className="text-coffee-medium/80 mb-8 font-light leading-relaxed">
               Experience the warmth and aroma of freshly brewed coffee in our
               inviting space. Perfect for work, meetings, or simply enjoying a
               moment of peace.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
-                className="bg-linear-to-r from-amber-600 to-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-amber-700 hover:to-orange-700 transition-all duration-300 shadow-lg"
+                className="bg-gold-accent text-coffee-dark px-8 py-3 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => router.push("/contact")}
               >
+                <MapPin size={18} />
                 Find Us
               </motion.button>
               <motion.button
-                className="border-2 border-amber-600 text-amber-600 px-8 py-3 rounded-lg font-semibold hover:bg-amber-600 hover:text-white transition-all duration-300"
+                className="border border-coffee-dark text-coffee-dark px-8 py-3 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300 flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
+                <Camera size={18} />
                 Virtual Tour
               </motion.button>
             </div>
@@ -180,33 +196,41 @@ export function Gallery() {
       <AnimatePresence>
         {selectedImage && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-coffee-dark/95 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedImage(null)}
           >
             <motion.div
-              className="relative max-w-4xl w-full max-h-[90vh] rounded-2xl overflow-hidden"
+              className="relative max-w-5xl w-full max-h-[90vh] rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors"
+                className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-gold-accent hover:text-coffee-dark transition-all duration-300"
                 onClick={() => setSelectedImage(null)}
               >
                 <X size={24} />
               </button>
-              <ImageWithFallback
-                src={selectedImage.src}
-                alt={selectedImage.alt}
-                className="w-full h-full object-contain"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
-                <h3 className="text-xl font-bold mb-2">{selectedImage.category}</h3>
-                <p>{selectedImage.alt}</p>
+              <div className="relative w-full h-[80vh]">
+                <ImageWithFallback
+                  src={selectedImage.src}
+                  alt={selectedImage.alt}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="bg-gold-accent text-coffee-dark text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">
+                    {selectedImage.category}
+                  </span>
+                </div>
+                <h3 className="text-xl font-serif font-bold">
+                  {selectedImage.alt}
+                </h3>
               </div>
             </motion.div>
           </motion.div>
