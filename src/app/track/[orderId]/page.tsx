@@ -2,10 +2,18 @@
 
 import { useOrders } from "@/context/OrderContext";
 import { motion } from "framer-motion";
-import { CheckCircle, Clock, ChefHat, Truck, Package, MapPin } from "lucide-react";
+import {
+  CheckCircle,
+  Clock,
+  ChefHat,
+  Truck,
+  Package,
+  MapPin,
+} from "lucide-react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
+import OrderTracking from "@/components/OrderTracking"; // Import the OrderTracking component
 
 const statusSteps = [
   { status: "pending", label: "Order Placed", icon: Package },
@@ -18,7 +26,7 @@ export default function TrackOrderPage() {
   const params = useParams();
   const orderId = params.orderId as string;
   const { getOrder } = useOrders();
-  
+
   const order = getOrder(orderId);
 
   if (!order) {
@@ -43,7 +51,9 @@ export default function TrackOrderPage() {
     );
   }
 
-  const currentStepIndex = statusSteps.findIndex(step => step.status === order.status);
+  const currentStepIndex = statusSteps.findIndex(
+    (step) => step.status === order.status
+  );
 
   return (
     <>
@@ -69,9 +79,13 @@ export default function TrackOrderPage() {
             <div className="relative">
               {/* Progress Line */}
               <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-coffee-light/20" />
-              <div 
+              <div
                 className="absolute left-8 top-8 w-0.5 bg-gold-accent transition-all duration-1000"
-                style={{ height: `${(currentStepIndex / (statusSteps.length - 1)) * 100}%` }}
+                style={{
+                  height: `${
+                    (currentStepIndex / (statusSteps.length - 1)) * 100
+                  }%`,
+                }}
               />
 
               {/* Steps */}
@@ -89,17 +103,23 @@ export default function TrackOrderPage() {
                       transition={{ delay: index * 0.1 }}
                       className="flex items-center gap-6"
                     >
-                      <div className={`relative z-10 w-16 h-16 rounded-full flex items-center justify-center ${
-                        isCompleted 
-                          ? 'bg-gold-accent text-coffee-dark' 
-                          : 'bg-white border-2 border-coffee-light/20 text-coffee-medium'
-                      } transition-all duration-300`}>
+                      <div
+                        className={`relative z-10 w-16 h-16 rounded-full flex items-center justify-center ${
+                          isCompleted
+                            ? "bg-gold-accent text-coffee-dark"
+                            : "bg-white border-2 border-coffee-light/20 text-coffee-medium"
+                        } transition-all duration-300`}
+                      >
                         <StepIcon size={28} />
                       </div>
                       <div className="flex-1">
-                        <h3 className={`text-xl font-serif font-bold ${
-                          isCompleted ? 'text-coffee-dark' : 'text-coffee-medium'
-                        }`}>
+                        <h3
+                          className={`text-xl font-serif font-bold ${
+                            isCompleted
+                              ? "text-coffee-dark"
+                              : "text-coffee-medium"
+                          }`}
+                        >
                           {step.label}
                         </h3>
                         {isCurrent && (
@@ -168,11 +188,17 @@ export default function TrackOrderPage() {
                 </h3>
                 <div className="space-y-1 text-sm text-coffee-medium">
                   <p>{order.deliveryAddress.address}</p>
-                  <p>{order.deliveryAddress.city}, {order.deliveryAddress.zipCode}</p>
+                  <p>
+                    {order.deliveryAddress.city},{" "}
+                    {order.deliveryAddress.zipCode}
+                  </p>
                 </div>
               </motion.div>
             )}
           </div>
+
+          {/* Order Tracking Component */}
+          <OrderTracking orderId={orderId} />
         </div>
       </div>
       <Footer />

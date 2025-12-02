@@ -3,7 +3,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
-} from "lucide-react@0.487.0";
+} from "lucide-react";
 
 import { cn } from "./utils";
 import { Button, buttonVariants } from "./button";
@@ -43,9 +43,9 @@ type PaginationLinkProps = {
   React.ComponentProps<"a">;
 
 function PaginationLink({
-  className,
   isActive,
-  size = "icon",
+  size,
+  className,
   ...props
 }: PaginationLinkProps) {
   return (
@@ -53,12 +53,18 @@ function PaginationLink({
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
       data-active={isActive}
+      tabIndex={0} // Ensure keyboard focus
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          (props as any).onClick?.(e);
+        }
+      }}
       className={cn(
         buttonVariants({
           variant: isActive ? "outline" : "ghost",
           size,
         }),
-        className,
+        className
       )}
       {...props}
     />

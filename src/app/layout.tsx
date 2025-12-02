@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "../components/Navigation";
 import { Toaster } from "sonner";
 import { AuthProvider } from "../components/AuthProvider";
 import { CartProvider } from "../context/CartContext";
 import { OrderProvider } from "../context/OrderContext";
 import { FavoritesProvider } from "../context/FavoritesContext";
 import { LoyaltyProvider } from "../context/LoyaltyContext";
-import { CartSidebar } from "../components/CartSidebar";
 import { ErrorBoundary } from "../components/ErrorBoundary";
+import { LayoutWrapper } from "../components/LayoutWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,11 +22,19 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: "BrewHouse | Premium Coffee Experience",
-  description: "Experience the finest artisan coffee in a warm, inviting atmosphere. Ethically sourced beans, expertly roasted, served with passion.",
-  keywords: ["coffee", "cafe", "artisan coffee", "specialty coffee", "coffee shop"],
+  description:
+    "Experience the finest artisan coffee in a warm, inviting atmosphere. Ethically sourced beans, expertly roasted, served with passion.",
+  keywords: [
+    "coffee",
+    "cafe",
+    "artisan coffee",
+    "specialty coffee",
+    "coffee shop",
+  ],
   openGraph: {
     title: "BrewHouse | Premium Coffee Experience",
-    description: "Experience the finest artisan coffee in a warm, inviting atmosphere.",
+    description:
+      "Experience the finest artisan coffee in a warm, inviting atmosphere.",
     type: "website",
     locale: "en_US",
     siteName: "BrewHouse Coffee",
@@ -50,9 +57,7 @@ export default function RootLayout({
               <OrderProvider>
                 <LoyaltyProvider>
                   <CartProvider>
-                    <Navigation />
-                    <CartSidebar />
-                    {children}
+                    <LayoutWrapper>{children}</LayoutWrapper>
                     <Toaster position="bottom-right" richColors />
                   </CartProvider>
                 </LoyaltyProvider>

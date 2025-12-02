@@ -32,7 +32,13 @@ export function Contact() {
         toast.success("Message sent successfully!", {
           description: "We'll get back to you as soon as possible.",
         });
-        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
       } else {
         const error = await response.json();
         toast.error("Failed to send message", {
@@ -71,7 +77,8 @@ export function Contact() {
             Contact Us
           </h1>
           <p className="text-xl text-coffee-medium max-w-3xl mx-auto font-light leading-relaxed">
-            Have questions or feedback? We'd love to hear from you. Visit us, give us a call, or send us a message below.
+            Have questions or feedback? We'd love to hear from you. Visit us,
+            give us a call, or send us a message below.
           </p>
         </motion.div>
 
@@ -85,41 +92,77 @@ export function Contact() {
           {/* Location */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-coffee-light/10 hover:shadow-xl transition-all duration-300 group">
             <div className="bg-coffee-dark rounded-full w-14 h-14 flex items-center justify-center mb-4 group-hover:bg-gold-accent transition-colors duration-300">
-              <MapPin className="text-gold-accent group-hover:text-coffee-dark" size={24} />
+              <MapPin
+                className="text-gold-accent group-hover:text-coffee-dark"
+                size={24}
+              />
             </div>
-            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">Visit Us</h3>
-            <p className="text-coffee-medium/80 text-sm font-light">123 Coffee Street</p>
-            <p className="text-coffee-medium/80 text-sm font-light">Brew City, BC 12345</p>
+            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">
+              Visit Us
+            </h3>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              123 Coffee Street
+            </p>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              Brew City, BC 12345
+            </p>
           </div>
 
           {/* Phone */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-coffee-light/10 hover:shadow-xl transition-all duration-300 group">
             <div className="bg-coffee-dark rounded-full w-14 h-14 flex items-center justify-center mb-4 group-hover:bg-gold-accent transition-colors duration-300">
-              <Phone className="text-gold-accent group-hover:text-coffee-dark" size={24} />
+              <Phone
+                className="text-gold-accent group-hover:text-coffee-dark"
+                size={24}
+              />
             </div>
-            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">Call Us</h3>
-            <p className="text-coffee-medium/80 text-sm font-light">(555) 123-BREW</p>
-            <p className="text-coffee-medium/80 text-sm font-light">(555) 123-4739</p>
+            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">
+              Call Us
+            </h3>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              (555) 123-BREW
+            </p>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              (555) 123-4739
+            </p>
           </div>
 
           {/* Email */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-coffee-light/10 hover:shadow-xl transition-all duration-300 group">
             <div className="bg-coffee-dark rounded-full w-14 h-14 flex items-center justify-center mb-4 group-hover:bg-gold-accent transition-colors duration-300">
-              <Mail className="text-gold-accent group-hover:text-coffee-dark" size={24} />
+              <Mail
+                className="text-gold-accent group-hover:text-coffee-dark"
+                size={24}
+              />
             </div>
-            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">Email Us</h3>
-            <p className="text-coffee-medium/80 text-sm font-light">hello@brewhouse.com</p>
-            <p className="text-coffee-medium/80 text-sm font-light">support@brewhouse.com</p>
+            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">
+              Email Us
+            </h3>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              hello@brewhouse.com
+            </p>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              support@brewhouse.com
+            </p>
           </div>
 
           {/* Hours */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-coffee-light/10 hover:shadow-xl transition-all duration-300 group">
             <div className="bg-coffee-dark rounded-full w-14 h-14 flex items-center justify-center mb-4 group-hover:bg-gold-accent transition-colors duration-300">
-              <Clock className="text-gold-accent group-hover:text-coffee-dark" size={24} />
+              <Clock
+                className="text-gold-accent group-hover:text-coffee-dark"
+                size={24}
+              />
             </div>
-            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">Opening Hours</h3>
-            <p className="text-coffee-medium/80 text-sm font-light">Mon-Fri: 7:00 AM - 8:00 PM</p>
-            <p className="text-coffee-medium/80 text-sm font-light">Sat-Sun: 8:00 AM - 6:00 PM</p>
+            <h3 className="text-lg font-serif font-bold text-coffee-dark mb-2">
+              Opening Hours
+            </h3>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              Mon-Fri: 7:00 AM - 8:00 PM
+            </p>
+            <p className="text-coffee-medium/80 text-sm font-light">
+              Sat-Sun: 8:00 AM - 6:00 PM
+            </p>
           </div>
         </motion.div>
 
@@ -132,7 +175,9 @@ export function Contact() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="bg-white rounded-3xl p-8 md:p-10 shadow-xl border border-coffee-light/10"
           >
-            <h2 className="text-3xl font-serif font-bold text-coffee-dark mb-2">Send us a Message</h2>
+            <h2 className="text-3xl font-serif font-bold text-coffee-dark mb-2">
+              Send us a Message
+            </h2>
             <p className="text-coffee-medium/80 mb-8 font-light">
               Fill out the form below and we'll get back to you within 24 hours.
             </p>
@@ -147,7 +192,9 @@ export function Contact() {
                     type="text"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 bg-stone-50 text-coffee-dark placeholder-coffee-medium/40 focus:outline-none focus:ring-2 focus:ring-gold-accent focus:border-transparent transition-all duration-300"
                     placeholder="John Doe"
                   />
@@ -161,7 +208,9 @@ export function Contact() {
                     type="email"
                     required
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 bg-stone-50 text-coffee-dark placeholder-coffee-medium/40 focus:outline-none focus:ring-2 focus:ring-gold-accent focus:border-transparent transition-all duration-300"
                     placeholder="john@example.com"
                   />
@@ -176,7 +225,9 @@ export function Contact() {
                   <input
                     type="tel"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                     className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 bg-stone-50 text-coffee-dark placeholder-coffee-medium/40 focus:outline-none focus:ring-2 focus:ring-gold-accent focus:border-transparent transition-all duration-300"
                     placeholder="(555) 123-4567"
                   />
@@ -189,7 +240,9 @@ export function Contact() {
                   <input
                     type="text"
                     value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, subject: e.target.value })
+                    }
                     className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 bg-stone-50 text-coffee-dark placeholder-coffee-medium/40 focus:outline-none focus:ring-2 focus:ring-gold-accent focus:border-transparent transition-all duration-300"
                     placeholder="General Inquiry"
                   />
@@ -204,7 +257,9 @@ export function Contact() {
                   required
                   rows={6}
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, message: e.target.value })
+                  }
                   className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 bg-stone-50 text-coffee-dark placeholder-coffee-medium/40 focus:outline-none focus:ring-2 focus:ring-gold-accent focus:border-transparent transition-all duration-300 resize-none"
                   placeholder="Tell us how we can help you..."
                 />
@@ -213,6 +268,7 @@ export function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
+                aria-label="Send Message"
                 className="w-full bg-gold-accent text-coffee-dark px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
               >
                 {isSubmitting ? (
@@ -220,7 +276,10 @@ export function Contact() {
                 ) : (
                   <>
                     Send Message
-                    <Send size={20} className="group-hover:translate-x-1 transition-transform" />
+                    <Send
+                      size={20}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
                   </>
                 )}
               </button>
@@ -250,7 +309,7 @@ export function Contact() {
             {/* Why Contact Us */}
             <div className="bg-coffee-dark rounded-3xl p-8 text-white relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gold-accent/10 rounded-full blur-2xl translate-x-1/2 -translate-y-1/2" />
-              
+
               <h3 className="text-2xl font-serif font-bold text-gold-light mb-4 relative z-10">
                 We're Here to Help
               </h3>
@@ -260,9 +319,12 @@ export function Contact() {
                     <Navigation2 size={16} className="text-gold-accent" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gold-light mb-1">Easy to Find</h4>
+                    <h4 className="font-semibold text-gold-light mb-1">
+                      Easy to Find
+                    </h4>
                     <p className="text-coffee-cream/70 text-sm font-light">
-                      Located in the heart of downtown, with ample parking and public transportation access.
+                      Located in the heart of downtown, with ample parking and
+                      public transportation access.
                     </p>
                   </div>
                 </div>
@@ -272,9 +334,12 @@ export function Contact() {
                     <Clock size={16} className="text-gold-accent" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gold-light mb-1">Quick Response</h4>
+                    <h4 className="font-semibold text-gold-light mb-1">
+                      Quick Response
+                    </h4>
                     <p className="text-coffee-cream/70 text-sm font-light">
-                      We typically respond to all inquiries within 24 hours during business days.
+                      We typically respond to all inquiries within 24 hours
+                      during business days.
                     </p>
                   </div>
                 </div>
@@ -284,9 +349,12 @@ export function Contact() {
                     <Mail size={16} className="text-gold-accent" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gold-light mb-1">Multiple Channels</h4>
+                    <h4 className="font-semibold text-gold-light mb-1">
+                      Multiple Channels
+                    </h4>
                     <p className="text-coffee-cream/70 text-sm font-light">
-                      Reach us via phone, email, or this form - whatever works best for you.
+                      Reach us via phone, email, or this form - whatever works
+                      best for you.
                     </p>
                   </div>
                 </div>
@@ -294,12 +362,13 @@ export function Contact() {
             </div>
 
             {/* Social Media CTA */}
-            <div className="bg-gradient-to-br from-gold-accent to-gold-light rounded-3xl p-8 text-coffee-dark shadow-xl">
+            <div className="bg-linear-to-br from-gold-accent to-gold-light rounded-3xl p-8 text-coffee-dark shadow-xl">
               <h3 className="text-2xl font-serif font-bold mb-3">
                 Follow Our Journey
               </h3>
               <p className="mb-6 font-light">
-                Stay connected with us on social media for updates, promotions, and coffee inspiration.
+                Stay connected with us on social media for updates, promotions,
+                and coffee inspiration.
               </p>
               <div className="flex gap-4">
                 <a

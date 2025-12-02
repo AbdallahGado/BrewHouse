@@ -3,7 +3,8 @@ export const blogPosts = [
     id: "perfect-espresso-guide",
     title: "The Art of Making Perfect Espresso at Home",
     slug: "perfect-espresso-guide",
-    excerpt: "Learn the essential techniques and tips for crafting barista-quality espresso in your own kitchen.",
+    excerpt:
+      "Learn the essential techniques and tips for crafting barista-quality espresso in your own kitchen.",
     content: `
 # The Art of Making Perfect Espresso at Home
 
@@ -70,7 +71,8 @@ Remember, espresso making is as much art as science. Keep notes on your grind se
     id: "coffee-bean-origins",
     title: "Understanding Coffee Bean Origins: A World Tour",
     slug: "coffee-bean-origins",
-    excerpt: "Discover how geography, climate, and processing methods create distinct flavor profiles in coffee from around the world.",
+    excerpt:
+      "Discover how geography, climate, and processing methods create distinct flavor profiles in coffee from around the world.",
     content: `
 # Understanding Coffee Bean Origins: A World Tour
 
@@ -138,7 +140,8 @@ Visit BrewHouse to taste coffees from all these amazing origins!
     id: "sustainable-coffee",
     title: "Why Sustainable Coffee Matters More Than Ever",
     slug: "sustainable-coffee",
-    excerpt: "Exploring the importance of ethical sourcing, fair trade practices, and environmental responsibility in coffee production.",
+    excerpt:
+      "Exploring the importance of ethical sourcing, fair trade practices, and environmental responsibility in coffee production.",
     content: `
 # Why Sustainable Coffee Matters More Than Ever
 
@@ -201,5 +204,33 @@ Every cup you enjoy can support positive change in coffee-growing communities!
     category: "Sustainability",
     image: "https://images.unsplash.com/photo-1523693916903-027d144a2b7d?w=800",
     readTime: "7 min read",
+  },
+  {
+    id: "coffee-bean-guide",
+    title: "Top 5 Coffee Beans for Espresso Lovers",
+    slug: "coffee-bean-guide",
+    excerpt: "Explore the best coffee beans to elevate your espresso game.",
+    content: `
+# Top 5 Coffee Beans for Espresso Lovers
+
+Choosing the right coffee beans is essential for crafting the perfect espresso. Here are our top picks:
+
+1. **Ethiopian Yirgacheffe**: Known for its floral and citrus notes.
+2. **Colombian Supremo**: Balanced flavor with hints of caramel.
+3. **Sumatra Mandheling**: Earthy and full-bodied.
+4. **Guatemalan Antigua**: Chocolatey with a hint of spice.
+5. **Brazilian Santos**: Nutty and smooth.
+
+Experiment with these beans to find your favorite!
+    `,
+    author: {
+      name: "David Johnson",
+      role: "Coffee Consultant",
+      avatar: "/images/team/david.jpg",
+    },
+    date: "2024-10-20",
+    category: "Coffee Education",
+    image: "https://images.unsplash.com/photo-1514516878531-507f3a7f3f3b?w=800",
+    readTime: "5 min read",
   },
 ];

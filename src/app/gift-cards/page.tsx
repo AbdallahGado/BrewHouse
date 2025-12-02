@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Gift, CreditCard, Mail, Download } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
+import { useGiftCard } from "@/context/GiftCardContext";
 
 const giftCardAmounts = [25, 50, 100, 150, 200];
 
@@ -15,10 +16,11 @@ export default function GiftCardsPage() {
   const [recipientName, setRecipientName] = useState("");
   const [senderName, setSenderName] = useState("");
   const [message, setMessage] = useState("");
+  const {} = useGiftCard();
 
   const handlePurchase = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
     const code = `BH${Date.now().toString(36).toUpperCase()}`;
 
@@ -65,7 +67,7 @@ export default function GiftCardsPage() {
                   <h2 className="text-2xl font-serif font-bold text-coffee-dark mb-6">
                     Select Amount
                   </h2>
-                  
+
                   <div className="grid grid-cols-3 gap-4 mb-6">
                     {giftCardAmounts.map((amount) => (
                       <button
@@ -105,7 +107,7 @@ export default function GiftCardsPage() {
                   <h2 className="text-2xl font-serif font-bold text-coffee-dark mb-6">
                     Recipient Information
                   </h2>
-                  
+
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-coffee-dark mb-2">
@@ -120,7 +122,7 @@ export default function GiftCardsPage() {
                         placeholder="John Doe"
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-medium text-coffee-dark mb-2">
                         Recipient Email *
@@ -188,10 +190,14 @@ export default function GiftCardsPage() {
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-8">
                     <Gift size={32} className="text-gold-accent" />
-                    <span className="text-2xl font-serif font-bold">BrewHouse</span>
+                    <span className="text-2xl font-serif font-bold">
+                      BrewHouse
+                    </span>
                   </div>
                   <div className="mb-8">
-                    <p className="text-white/60 text-sm mb-2">Gift Card Value</p>
+                    <p className="text-white/60 text-sm mb-2">
+                      Gift Card Value
+                    </p>
                     <p className="text-5xl font-bold text-gold-accent">
                       ${customAmount || selectedAmount}
                     </p>
@@ -199,7 +205,9 @@ export default function GiftCardsPage() {
                   <div className="flex justify-between items-end">
                     <div>
                       <p className="text-white/60 text-sm mb-1">To</p>
-                      <p className="font-medium">{recipientName || "Recipient Name"}</p>
+                      <p className="font-medium">
+                        {recipientName || "Recipient Name"}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="text-white/60 text-sm mb-1">From</p>
@@ -228,7 +236,7 @@ export default function GiftCardsPage() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-3">
                     <div className="bg-gold-accent/10 rounded-full p-2 mt-1">
                       <Download size={18} className="text-gold-accent" />
@@ -242,7 +250,7 @@ export default function GiftCardsPage() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-start gap-3">
                     <div className="bg-gold-accent/10 rounded-full p-2 mt-1">
                       <Gift size={18} className="text-gold-accent" />
@@ -262,7 +270,10 @@ export default function GiftCardsPage() {
               {/* Terms */}
               <div className="bg-stone-100 rounded-xl p-6">
                 <p className="text-sm text-coffee-medium">
-                  <strong className="text-coffee-dark">Note:</strong> Gift cards can be used for any purchase at BrewHouse locations or online. Not redeemable for cash. Lost or stolen cards cannot be replaced.
+                  <strong className="text-coffee-dark">Note:</strong> Gift cards
+                  can be used for any purchase at BrewHouse locations or online.
+                  Not redeemable for cash. Lost or stolen cards cannot be
+                  replaced.
                 </p>
               </div>
             </motion.div>

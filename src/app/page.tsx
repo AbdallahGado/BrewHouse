@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Hero } from "../components/Hero";
 import { Features } from "../components/Features";
+import { About } from "../components/About";
 import { Footer } from "../components/Footer";
-import { ScrollToTop } from "../components/ScrollToTop";
 import { ReservationModal } from "../components/ReservationModal";
 
 export default function Home() {
@@ -14,10 +14,8 @@ export default function Home() {
     <main className="min-h-screen">
       <Hero onBookTable={() => setIsReservationOpen(true)} />
       <Features />
-
-
+      <About />
       <Footer />
-      <ScrollToTop />
       <ReservationModal
         isOpen={isReservationOpen}
         onClose={() => setIsReservationOpen(false)}

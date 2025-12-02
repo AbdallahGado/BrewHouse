@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ChevronDown,
-  Star,
-  MapPin,
-  Phone,
-  Calendar,
-} from "lucide-react";
+import { ChevronDown, Star, MapPin, Phone, Calendar } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -74,7 +68,7 @@ export function Hero({ onBookTable }: HeroProps) {
           className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1447933601403-0c606bb9dff5?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30"
           style={{ y }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-coffee-dark/95 via-coffee-medium/80 to-coffee-dark/95" />
+        <div className="absolute inset-0 bg-linear-to-b from-coffee-dark/95 via-coffee-medium/80 to-coffee-dark/95" />
 
         {/* Floating Coffee Beans */}
         {beanPositions.map((pos, i) => (

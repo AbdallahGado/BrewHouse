@@ -1,23 +1,43 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { useOrders } from "@/context/OrderContext";
 import { motion } from "framer-motion";
-import { ShoppingBag, CreditCard, MapPin, User, Mail, Phone, Lock, CheckCircle, ArrowLeft } from "lucide-react";
+import {
+  ShoppingBag,
+  CreditCard,
+  MapPin,
+  User,
+  Lock,
+  CheckCircle,
+  ArrowLeft,
+} from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
+
+interface FormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  zipCode: string;
+  cardNumber: string;
+  cardName: string;
+  expiryDate: string;
+  cvv: string;
+  orderType: "pickup" | "delivery";
+}
 
 export default function CheckoutPage() {
   const { items, total, clearCart } = useCart();
   const { addOrder } = useOrders();
-  const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderNumber, setOrderNumber] = useState("");
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     // Customer Info
     fullName: "",
     email: "",
@@ -35,9 +55,11 @@ export default function CheckoutPage() {
     orderType: "pickup", // pickup or delivery
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,11 +67,11 @@ export default function CheckoutPage() {
     setIsProcessing(true);
 
     // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Generate order number
     const orderNum = `BH${Date.now().toString().slice(-8)}`;
-    
+
     // Calculate totals
     const deliveryFee = formData.orderType === "delivery" ? 3.99 : 0;
     const tax = (total + deliveryFee) * 0.1;
@@ -58,7 +80,7 @@ export default function CheckoutPage() {
     // Save order to history
     addOrder({
       orderNumber: orderNum,
-      items: items.map(item => ({
+      items: items.map((item) => ({
         id: item.id,
         name: item.name,
         price: item.price,
@@ -71,19 +93,39 @@ export default function CheckoutPage() {
         phone: formData.phone,
       },
       orderType: formData.orderType,
-      deliveryAddress: formData.orderType === "delivery" ? {
-        address: formData.address,
-        city: formData.city,
-        zipCode: formData.zipCode,
-      } : undefined,
+      deliveryAddress:
+        formData.orderType === "delivery"
+          ? {
+              address: formData.address,
+              city: formData.city,
+              zipCode: formData.zipCode,
+            }
+          : undefined,
     });
 
-    setOrderNumber(orderNum);
+    // Accessibility: Focus on confirmation message after submission
     setOrderComplete(true);
-    setIsProcessing(false);
-    
-    // Clear cart
+    setOrderNumber(orderNum);
+    setTimeout(() => {
+      document.getElementById("order-confirmation")?.focus();
+    }, 0);
+
+    // Clear cart and reset form
     clearCart();
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      zipCode: "",
+      cardNumber: "",
+      cardName: "",
+      expiryDate: "",
+      cvv: "",
+      orderType: "pickup",
+    });
+    setIsProcessing(false);
 
     // Show success toast
     toast.success("Order placed successfully!", {
@@ -96,8 +138,12 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-stone-50 pt-24 pb-12 px-4">
         <div className="max-w-2xl mx-auto text-center py-20">
           <ShoppingBag size={64} className="mx-auto text-gray-300 mb-6" />
-          <h1 className="text-3xl font-serif font-bold text-coffee-dark mb-4">Your Cart is Empty</h1>
-          <p className="text-coffee-medium mb-8">Add some items to your cart before checking out.</p>
+          <h1 className="text-3xl font-serif font-bold text-coffee-dark mb-4">
+            Your Cart is Empty
+          </h1>
+          <p className="text-coffee-medium mb-8">
+            Add some items to your cart before checking out.
+          </p>
           <Link
             href="/menu"
             className="inline-block bg-gold-accent text-coffee-dark px-8 py-3 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300"
@@ -126,7 +172,7 @@ export default function CheckoutPage() {
             >
               <CheckCircle size={40} className="text-green-600" />
             </motion.div>
-            
+
             <h1 className="text-3xl md:text-4xl font-serif font-bold text-coffee-dark mb-4">
               Order Confirmed!
             </h1>
@@ -136,17 +182,23 @@ export default function CheckoutPage() {
 
             <div className="bg-stone-50 rounded-2xl p-6 mb-8">
               <p className="text-sm text-coffee-medium mb-2">Order Number</p>
-              <p className="text-2xl font-bold text-coffee-dark font-mono">{orderNumber}</p>
+              <p className="text-2xl font-bold text-coffee-dark font-mono">
+                {orderNumber}
+              </p>
             </div>
 
             <div className="border-t border-b border-coffee-light/20 py-6 mb-8 space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-coffee-medium">Email Confirmation</span>
-                <span className="font-medium text-coffee-dark">{formData.email}</span>
+                <span className="font-medium text-coffee-dark">
+                  {formData.email}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-coffee-medium">Order Type</span>
-                <span className="font-medium text-coffee-dark capitalize">{formData.orderType}</span>
+                <span className="font-medium text-coffee-dark capitalize">
+                  {formData.orderType}
+                </span>
               </div>
               {formData.orderType === "delivery" && (
                 <div className="flex justify-between text-sm">
@@ -161,13 +213,13 @@ export default function CheckoutPage() {
             <div className="space-y-4">
               <Link
                 href="/"
-                className="block w-full bg-gold-accent text-coffee-dark px-8 py-4 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300"
+                className="w-full bg-gold-accent text-coffee-dark px-8 py-4 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300"
               >
                 Back to Home
               </Link>
               <Link
                 href="/menu"
-                className="block w-full border border-coffee-dark text-coffee-dark px-8 py-4 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300"
+                className="w-full border border-coffee-dark text-coffee-dark px-8 py-4 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300"
               >
                 Order Again
               </Link>
@@ -210,7 +262,9 @@ export default function CheckoutPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, orderType: "pickup" }))}
+                    onClick={() =>
+                      setFormData((prev) => ({ ...prev, orderType: "pickup" }))
+                    }
                     className={`p-4 rounded-xl border-2 transition-all ${
                       formData.orderType === "pickup"
                         ? "border-gold-accent bg-gold-accent/10"
@@ -218,11 +272,18 @@ export default function CheckoutPage() {
                     }`}
                   >
                     <p className="font-bold text-coffee-dark">Pickup</p>
-                    <p className="text-sm text-coffee-medium">Ready in 15 min</p>
+                    <p className="text-sm text-coffee-medium">
+                      Ready in 15 min
+                    </p>
                   </button>
                   <button
                     type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, orderType: "delivery" }))}
+                    onClick={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        orderType: "delivery",
+                      }))
+                    }
                     className={`p-4 rounded-xl border-2 transition-all ${
                       formData.orderType === "delivery"
                         ? "border-gold-accent bg-gold-accent/10"
@@ -420,7 +481,9 @@ export default function CheckoutPage() {
                 disabled={isProcessing}
                 className="w-full bg-gold-accent text-coffee-dark px-8 py-4 rounded-full font-bold text-lg hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
               >
-                {isProcessing ? "Processing..." : `Place Order - $${finalTotal.toFixed(2)}`}
+                {isProcessing
+                  ? "Processing..."
+                  : `Place Order - $${finalTotal.toFixed(2)}`}
               </button>
             </form>
           </div>
@@ -434,13 +497,23 @@ export default function CheckoutPage() {
 
               <div className="space-y-4 mb-6">
                 {items.map((item) => (
-                  <div key={item.id} className="flex justify-between items-start">
+                  <div
+                    key={item.id}
+                    className="flex justify-between items-start"
+                  >
                     <div className="flex-1">
-                      <p className="font-medium text-coffee-dark">{item.name}</p>
-                      <p className="text-sm text-coffee-medium">Qty: {item.quantity}</p>
+                      <p className="font-medium text-coffee-dark">
+                        {item.name}
+                      </p>
+                      <p className="text-sm text-coffee-medium">
+                        Qty: {item.quantity}
+                      </p>
                     </div>
                     <p className="font-bold text-coffee-dark">
-                      ${(parseFloat(item.price.replace("$", "")) * item.quantity).toFixed(2)}
+                      $
+                      {(
+                        parseFloat(item.price.replace("$", "")) * item.quantity
+                      ).toFixed(2)}
                     </p>
                   </div>
                 ))}
@@ -449,21 +522,29 @@ export default function CheckoutPage() {
               <div className="border-t border-coffee-light/20 pt-4 space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-coffee-medium">Subtotal</span>
-                  <span className="font-medium text-coffee-dark">${total.toFixed(2)}</span>
+                  <span className="font-medium text-coffee-dark">
+                    ${total.toFixed(2)}
+                  </span>
                 </div>
                 {formData.orderType === "delivery" && (
                   <div className="flex justify-between text-sm">
                     <span className="text-coffee-medium">Delivery Fee</span>
-                    <span className="font-medium text-coffee-dark">${deliveryFee.toFixed(2)}</span>
+                    <span className="font-medium text-coffee-dark">
+                      ${deliveryFee.toFixed(2)}
+                    </span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm">
                   <span className="text-coffee-medium">Tax (10%)</span>
-                  <span className="font-medium text-coffee-dark">${tax.toFixed(2)}</span>
+                  <span className="font-medium text-coffee-dark">
+                    ${tax.toFixed(2)}
+                  </span>
                 </div>
                 <div className="flex justify-between text-lg font-bold pt-3 border-t border-coffee-light/20">
                   <span className="text-coffee-dark">Total</span>
-                  <span className="text-gold-accent">${finalTotal.toFixed(2)}</span>
+                  <span className="text-gold-accent">
+                    ${finalTotal.toFixed(2)}
+                  </span>
                 </div>
               </div>
 

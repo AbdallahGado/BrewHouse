@@ -115,7 +115,7 @@ export function Gallery() {
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-coffee-dark/90 via-coffee-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute inset-0 bg-linear-to-t from-coffee-dark/90 via-coffee-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                   <div className="flex items-center gap-2 mb-2">
                     <Camera size={16} className="text-gold-accent" />
@@ -130,7 +130,10 @@ export function Gallery() {
               </div>
 
               <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-gold-accent hover:text-coffee-dark text-white">
-                <ArrowRight size={20} className="-rotate-45 group-hover:rotate-0 transition-transform duration-300" />
+                <ArrowRight
+                  size={20}
+                  className="-rotate-45 group-hover:rotate-0 transition-transform duration-300"
+                />
               </div>
             </motion.div>
           ))}
@@ -159,8 +162,8 @@ export function Gallery() {
           viewport={{ once: true }}
         >
           <div className="bg-white rounded-3xl p-10 shadow-xl border border-coffee-light/10 max-w-3xl mx-auto relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gold-light via-gold-accent to-gold-light" />
-            
+            <div className="absolute top-0 left-0 w-full h-2 bg-linear-to-r from-gold-light via-gold-accent to-gold-light" />
+
             <h3 className="text-3xl font-serif font-bold text-coffee-dark mb-4">
               Visit Us Today
             </h3>
@@ -222,7 +225,7 @@ export function Gallery() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent text-white">
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-linear-to-t from-black/90 via-black/50 to-transparent text-white">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="bg-gold-accent text-coffee-dark text-xs font-bold px-2 py-1 rounded uppercase tracking-wider">
                     {selectedImage.category}

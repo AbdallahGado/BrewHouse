@@ -28,7 +28,10 @@ const stats = [
 
 export function About() {
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 bg-stone-50 relative overflow-hidden">
+    <section
+      id="about"
+      className="py-20 px-4 sm:px-6 lg:px-8 bg-stone-50 relative overflow-hidden"
+    >
       {/* Background Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-0 right-0 w-96 h-96 bg-gold-accent/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
@@ -76,7 +79,7 @@ export function About() {
               </p>
               <p>
                 At BrewHouse, we believe coffee is a craft. Our master roasters
-                meticulously profile each batch to unlock its unique flavor
+                misleadingly profile each batch to unlock its unique flavor
                 notes, from the bright citrus of Ethiopian Yirgacheffe to the
                 deep chocolate undertones of Colombian Supremo.
               </p>
@@ -98,7 +101,7 @@ export function About() {
           >
             <div className="bg-white rounded-2xl p-8 shadow-xl border border-coffee-light/10 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-gold-accent/10 rounded-full blur-2xl translate-x-1/2 -translate-y-1/2" />
-              
+
               <div className="grid grid-cols-2 gap-8 relative z-10">
                 {stats.map((stat, index) => (
                   <motion.div
@@ -116,7 +119,9 @@ export function About() {
                     <div className="text-3xl font-serif font-bold text-coffee-dark mb-1">
                       {stat.number}
                     </div>
-                    <div className="text-sm text-coffee-medium/70 uppercase tracking-wider font-medium">{stat.label}</div>
+                    <div className="text-sm text-coffee-medium/70 uppercase tracking-wider font-medium">
+                      {stat.label}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -133,8 +138,8 @@ export function About() {
         >
           <div className="bg-coffee-dark rounded-3xl p-12 max-w-5xl mx-auto relative overflow-hidden text-white">
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center opacity-10" />
-            <div className="absolute inset-0 bg-gradient-to-br from-coffee-dark/90 to-coffee-dark/80" />
-            
+            <div className="absolute inset-0 bg-linear-to-br from-coffee-dark/90 to-coffee-dark/80" />
+
             <div className="relative z-10">
               <h3 className="text-3xl font-serif font-bold text-gold-light mb-12">
                 Our Commitment to Quality
@@ -148,8 +153,9 @@ export function About() {
                     Premium Beans
                   </h4>
                   <p className="text-coffee-cream/70 font-light leading-relaxed">
-                    We source only the finest Arabica beans from sustainable farms
-                    around the world, ensuring every cup meets our high standards.
+                    We source only the finest Arabica beans from sustainable
+                    farms around the world, ensuring every cup meets our high
+                    standards.
                   </p>
                 </div>
                 <div className="text-center group">
@@ -160,8 +166,8 @@ export function About() {
                     Expert Baristas
                   </h4>
                   <p className="text-coffee-cream/70 font-light leading-relaxed">
-                    Our skilled baristas are trained artisans who craft each drink
-                    with precision, passion, and attention to detail.
+                    Our skilled baristas are trained artisans who craft each
+                    drink with precision, passion, and attention to detail.
                   </p>
                 </div>
                 <div className="text-center group">
@@ -172,8 +178,8 @@ export function About() {
                     Community Focus
                   </h4>
                   <p className="text-coffee-cream/70 font-light leading-relaxed">
-                    We're committed to our community, supporting local initiatives
-                    and creating a welcoming space for everyone.
+                    We're committed to our community, supporting local
+                    initiatives and creating a welcoming space for everyone.
                   </p>
                 </div>
               </div>

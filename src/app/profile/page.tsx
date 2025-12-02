@@ -4,7 +4,15 @@ import { useSession } from "next-auth/react";
 import { useOrders } from "@/context/OrderContext";
 import { useLoyalty } from "@/context/LoyaltyContext";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, MapPin, Calendar, Award, Package } from "lucide-react";
+import {
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar,
+  Award,
+  Package,
+} from "lucide-react";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { useState } from "react";
@@ -14,7 +22,7 @@ export default function ProfilePage() {
   const { orders } = useOrders();
   const { points, tier } = useLoyalty();
 
-  const [profileData, setProfileData] = useState({
+  const [profileData] = useState({
     name: session?.user?.name || "Guest User",
     email: session?.user?.email || "guest@example.com",
     phone: "(555) 123-4567",
@@ -67,13 +75,15 @@ export default function ProfilePage() {
                   <User size={24} className="text-gold-accent" />
                   Personal Information
                 </h2>
-                
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-coffee-medium mb-2">
                       Full Name
                     </label>
-                    <p className="text-coffee-dark font-medium">{profileData.name}</p>
+                    <p className="text-coffee-dark font-medium">
+                      {profileData.name}
+                    </p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-coffee-medium mb-2">
@@ -117,7 +127,9 @@ export default function ProfilePage() {
                   Saved Address
                 </h2>
                 <div className="space-y-2">
-                  <p className="text-coffee-dark font-medium">{profileData.address}</p>
+                  <p className="text-coffee-dark font-medium">
+                    {profileData.address}
+                  </p>
                   <p className="text-coffee-medium">
                     {profileData.city}, {profileData.zipCode}
                   </p>
@@ -143,9 +155,11 @@ export default function ProfilePage() {
                     View All →
                   </Link>
                 </div>
-                
+
                 {orders.length === 0 ? (
-                  <p className="text-coffee-medium text-center py-8">No orders yet</p>
+                  <p className="text-coffee-medium text-center py-8">
+                    No orders yet
+                  </p>
                 ) : (
                   <div className="space-y-4">
                     {orders.slice(0, 3).map((order) => (
@@ -182,10 +196,12 @@ export default function ProfilePage() {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-gradient-to-br from-gold-accent to-gold-light rounded-2xl p-6 text-coffee-dark"
+                className="bg-linear-to-br from-gold-accent to-gold-light rounded-2xl p-6 text-coffee-dark"
               >
                 <Award size={32} className="mb-4" />
-                <h3 className="text-xl font-serif font-bold mb-2 capitalize">{tier} Member</h3>
+                <h3 className="text-xl font-serif font-bold mb-2 capitalize">
+                  {tier} Member
+                </h3>
                 <p className="text-3xl font-bold mb-4">{points} Points</p>
                 <Link
                   href="/rewards"
@@ -208,7 +224,9 @@ export default function ProfilePage() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-coffee-medium">Total Orders</span>
-                    <span className="font-bold text-coffee-dark">{orders.length}</span>
+                    <span className="font-bold text-coffee-dark">
+                      {orders.length}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-coffee-medium">Member Since</span>

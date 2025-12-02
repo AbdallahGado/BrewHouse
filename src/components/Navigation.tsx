@@ -1,17 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useCart } from "../context/CartContext";
-import { Coffee, ShoppingCart, Shield, X, Menu } from "lucide-react";
+import {
+  Coffee,
+  ShoppingCart,
+  Shield,
+  X,
+  Menu,
+  Heart,
+  User,
+  ChevronDown,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Navigation() {
   const { data: session } = useSession();
   const { items, setIsOpen } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,7 +32,27 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsUserDropdownOpen(false);
+      }
+    };
+
+    if (isUserDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isUserDropdownOpen]);
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleUserDropdown = () => setIsUserDropdownOpen(!isUserDropdownOpen);
 
   return (
     <nav
@@ -43,12 +74,18 @@ export function Navigation() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Main Items Only */}
           <div className="hidden md:flex items-center space-x-8">
-            {["Home", "Menu", "About", "Gallery", "Contact"].map((item) => (
+            {["Home", "Menu", "Gallery", "About", "Contact"].map((item) => (
               <Link
                 key={item}
-                href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                href={
+                  item === "Home"
+                    ? "/"
+                    : item === "Menu"
+                    ? "/menu"
+                    : `/${item.toLowerCase()}`
+                }
                 className="text-coffee-cream/90 hover:text-gold-accent font-medium transition-colors relative group text-sm uppercase tracking-wider"
               >
                 {item}
@@ -57,7 +94,7 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* Cart and Auth Buttons */}
+          {/* Cart and User Section */}
           <div className="hidden md:flex items-center gap-6">
             <button
               onClick={() => setIsOpen(true)}
@@ -71,28 +108,99 @@ export function Navigation() {
               )}
             </button>
 
-            {/* Admin Link - Only show for admin users */}
-            {session?.user?.email === "admin@brewhouse.com" && (
-              <Link
-                href="/admin"
-                className="flex items-center gap-2 px-3 py-2 text-coffee-cream hover:text-gold-accent font-medium transition-colors"
-              >
-                <Shield size={16} />
-                Admin
-              </Link>
-            )}
-
             {session ? (
-              <div className="flex items-center gap-4">
-                <span className="text-coffee-cream text-sm">
-                  {session.user?.name}
-                </span>
+              <div className="relative">
                 <button
-                  onClick={() => signOut()}
-                  className="px-4 py-2 border border-gold-accent/30 rounded-full text-gold-accent text-sm font-medium hover:bg-gold-accent hover:text-coffee-dark transition-all duration-300"
+                  onClick={toggleUserDropdown}
+                  className="flex items-center gap-3 px-3 py-2 text-coffee-cream hover:text-gold-accent transition-colors rounded-full hover:bg-white/5"
                 >
-                  Sign Out
+                  <div className="w-8 h-8 bg-gold-accent/20 rounded-full flex items-center justify-center">
+                    <User size={16} />
+                  </div>
+                  <span className="text-sm font-medium">
+                    {session.user?.name}
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      isUserDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
+
+                {/* User Dropdown */}
+                <AnimatePresence>
+                  {isUserDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      className="absolute right-0 mt-2 w-64 bg-coffee-dark/95 backdrop-blur-xl border border-gold-accent/20 rounded-xl shadow-xl overflow-hidden z-50"
+                    >
+                      <div className="p-4 border-b border-gold-accent/10">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gold-accent/20 rounded-full flex items-center justify-center">
+                            <User size={20} />
+                          </div>
+                          <div>
+                            <p className="text-coffee-cream font-medium">
+                              {session.user?.name}
+                            </p>
+                            <p className="text-coffee-cream/60 text-sm">
+                              {session.user?.email}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="py-2">
+                        {/* User Navigation Items */}
+                        {[
+                          { name: "Products", href: "/products" },
+                          { name: "Gift Cards", href: "/gift-cards" },
+                          { name: "Blog", href: "/blog" },
+                          { name: "Team", href: "/team" },
+                          { name: "Rewards", href: "/rewards" },
+                          { name: "Orders", href: "/orders" },
+                          { name: "Profile", href: "/profile" },
+                        ].map((item) => (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            className="block px-4 py-3 text-coffee-cream hover:text-gold-accent hover:bg-white/5 transition-all"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                          >
+                            {item.name}
+                          </Link>
+                        ))}
+
+                        {/* Admin Link */}
+                        {session?.user?.email === "admin@brewhouse.com" && (
+                          <Link
+                            href="/admin"
+                            className="flex items-center gap-3 px-4 py-3 text-coffee-cream hover:text-gold-accent hover:bg-white/5 transition-all"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                          >
+                            <Shield size={16} />
+                            <span>Admin Dashboard</span>
+                          </Link>
+                        )}
+
+                        <div className="border-t border-gold-accent/10 mt-2 pt-2">
+                          <button
+                            onClick={() => {
+                              signOut();
+                              setIsUserDropdownOpen(false);
+                            }}
+                            className="w-full text-left px-4 py-3 text-coffee-cream hover:text-gold-accent hover:bg-white/5 transition-all"
+                          >
+                            Sign Out
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
               <div className="flex items-center gap-4">
@@ -132,10 +240,28 @@ export function Navigation() {
             className="md:hidden bg-coffee-dark/95 backdrop-blur-xl border-t border-gold-accent/10 overflow-hidden"
           >
             <div className="px-4 pt-4 pb-6 space-y-2">
-              {["Home", "Menu", "About", "Gallery", "Contact"].map((item) => (
+              {[
+                "Home",
+                "Menu",
+                "Products",
+                "Gift Cards",
+                "About",
+                "Gallery",
+                "Blog",
+                "Team",
+                "Rewards",
+                "Orders",
+                "Contact",
+              ].map((item) => (
                 <Link
                   key={item}
-                  href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                  href={
+                    item === "Home"
+                      ? "/"
+                      : item === "Gift Cards"
+                      ? "/gift-cards"
+                      : `/${item.toLowerCase().replace(" ", "-")}`
+                  }
                   className="block px-4 py-3 text-coffee-cream hover:text-gold-accent hover:bg-white/5 rounded-lg font-medium transition-all"
                   onClick={toggleMenu}
                 >
@@ -210,6 +336,35 @@ export function Navigation() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Bottom Navigation - Mobile Only */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-coffee-dark/95 backdrop-blur-md border-t border-gold-accent/10 py-2 flex justify-around items-center md:hidden">
+        <Link href="/" className="flex flex-col items-center text-gold-accent">
+          <Coffee size={24} />
+          <span className="text-xs">Home</span>
+        </Link>
+        <button
+          onClick={() => setIsOpen(true)}
+          className="flex flex-col items-center text-gold-accent"
+        >
+          <ShoppingCart size={24} />
+          <span className="text-xs">Cart</span>
+        </button>
+        <Link
+          href="/favorites"
+          className="flex flex-col items-center text-gold-accent"
+        >
+          <Heart size={24} />
+          <span className="text-xs">Favorites</span>
+        </Link>
+        <Link
+          href="/profile"
+          className="flex flex-col items-center text-gold-accent"
+        >
+          <Shield size={24} />
+          <span className="text-xs">Profile</span>
+        </Link>
+      </div>
     </nav>
   );
 }

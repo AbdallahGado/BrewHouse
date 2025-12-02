@@ -199,6 +199,13 @@ function Sidebar({
             <SheetTitle>Sidebar</SheetTitle>
             <SheetDescription>Displays the mobile sidebar.</SheetDescription>
           </SheetHeader>
+          <button
+            aria-label="Close Sidebar"
+            className="absolute top-4 right-4 bg-transparent text-sidebar-foreground hover:text-sidebar-accent focus:outline-none focus:ring-2 focus:ring-sidebar-accent"
+            onClick={() => setOpenMobile(false)}
+          >
+            Close
+          </button>
           <div className="flex h-full w-full flex-col">{children}</div>
         </SheetContent>
       </Sheet>
@@ -287,8 +294,13 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
       data-sidebar="rail"
       data-slot="sidebar-rail"
       aria-label="Toggle Sidebar"
-      tabIndex={-1}
+      tabIndex={0} // Changed from -1 to 0 for keyboard focus
       onClick={toggleSidebar}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          toggleSidebar();
+        }
+      }}
       title="Toggle Sidebar"
       className={cn(
         "hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:w-0.5",

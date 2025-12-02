@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
 import { toast } from "sonner";
 
 export interface CartItem {
@@ -80,19 +86,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const updateQuantity = (id: string, delta: number) => {
     setItems((currentItems) =>
-      currentItems.map((item) => {
-        if (item.id === id) {
-          const newQuantity = Math.max(0, item.quantity + delta);
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      }).filter((item) => item.quantity > 0)
+      currentItems
+        .map((item) => {
+          if (item.id === id) {
+            const newQuantity = Math.max(0, item.quantity + delta);
+            return { ...item, quantity: newQuantity };
+          }
+          return item;
+        })
+        .filter((item) => item.quantity > 0)
     );
   };
 
   const clearCart = () => {
     setItems([]);
-    localStorage.removeItem(CART_STORAGE_KEY);
+    try {
+      localStorage.removeItem(CART_STORAGE_KEY);
+    } catch (error) {
+      console.error("Failed to clear cart from localStorage:", error);
+    }
     toast.success("Cart cleared");
   };
 

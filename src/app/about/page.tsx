@@ -11,22 +11,26 @@ const values = [
   {
     icon: Target,
     title: "Quality First",
-    description: "We never compromise on the quality of our beans, our brewing process, or our service. Excellence is our standard.",
+    description:
+      "We never compromise on the quality of our beans, our brewing process, or our service. Excellence is our standard.",
   },
   {
     icon: Lightbulb,
     title: "Innovation",
-    description: "We constantly explore new brewing techniques, flavor profiles, and ways to enhance your coffee experience.",
+    description:
+      "We constantly explore new brewing techniques, flavor profiles, and ways to enhance your coffee experience.",
   },
   {
     icon: TrendingUp,
     title: "Sustainability",
-    description: "From ethical sourcing to eco-friendly practices, we're committed to a sustainable future for coffee.",
+    description:
+      "From ethical sourcing to eco-friendly practices, we're committed to a sustainable future for coffee.",
   },
   {
     icon: Globe2,
     title: "Community",
-    description: "We're more than a coffee shop—we're a gathering place where relationships brew alongside great coffee.",
+    description:
+      "We're more than a coffee shop—we're a gathering place where relationships brew alongside great coffee.",
   },
 ];
 
@@ -34,27 +38,32 @@ const timeline = [
   {
     year: "2009",
     title: "The Beginning",
-    description: "Sarah and Michael opened the first BrewHouse location with a single espresso machine and a big dream.",
+    description:
+      "Sarah and Michael opened the first BrewHouse location with a single espresso machine and a big dream.",
   },
   {
     year: "2012",
     title: "Direct Trade Program",
-    description: "Established partnerships with coffee farmers across Ethiopia, Colombia, and Guatemala.",
+    description:
+      "Established partnerships with coffee farmers across Ethiopia, Colombia, and Guatemala.",
   },
   {
     year: "2015",
     title: "Award Winning",
-    description: "Named 'Best Coffee Shop' by the National Coffee Association for three consecutive years.",
+    description:
+      "Named 'Best Coffee Shop' by the National Coffee Association for three consecutive years.",
   },
   {
     year: "2018",
     title: "Expansion",
-    description: "Opened three new locations and launched our online roastery platform.",
+    description:
+      "Opened three new locations and launched our online roastery platform.",
   },
   {
     year: "2024",
     title: "Today",
-    description: "Serving 10,000+ cups daily across 5 locations, still guided by our original values.",
+    description:
+      "Serving 10,000+ cups daily across 5 locations, still guided by our original values.",
   },
 ];
 
@@ -65,8 +74,8 @@ export default function AboutPage() {
         {/* Hero Section */}
         <section className="px-4 sm:px-6 lg:px-8 py-20 relative overflow-hidden bg-coffee-dark text-white">
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?q=80&w=2070')] bg-cover bg-center opacity-20" />
-          <div className="absolute inset-0 bg-gradient-to-br from-coffee-dark/90 to-coffee-dark/80" />
-          
+          <div className="absolute inset-0 bg-linear-to-br from-coffee-dark/90 to-coffee-dark/80" />
+
           <div className="max-w-7xl mx-auto relative z-10">
             <motion.div
               className="text-center max-w-4xl mx-auto"
@@ -81,8 +90,9 @@ export default function AboutPage() {
                 About BrewHouse
               </h1>
               <p className="text-xl md:text-2xl text-coffee-cream/90 leading-relaxed font-light">
-                Crafting exceptional coffee experiences since 2009. From humble beginnings
-                to becoming a beloved coffee destination, our passion for quality has never wavered.
+                Crafting exceptional coffee experiences since 2009. From humble
+                beginnings to becoming a beloved coffee destination, our passion
+                for quality has never wavered.
               </p>
             </motion.div>
           </div>
@@ -113,7 +123,8 @@ export default function AboutPage() {
                 Our Core Values
               </h2>
               <p className="text-xl text-coffee-medium max-w-3xl mx-auto font-light">
-                These principles guide everything we do, from sourcing beans to serving our community.
+                These principles guide everything we do, from sourcing beans to
+                serving our community.
               </p>
             </motion.div>
 
@@ -129,7 +140,10 @@ export default function AboutPage() {
                   whileHover={{ y: -5 }}
                 >
                   <div className="bg-coffee-dark rounded-full w-16 h-16 flex items-center justify-center mb-6 group-hover:bg-gold-accent transition-colors duration-300">
-                    <value.icon className="text-gold-accent group-hover:text-coffee-dark" size={28} />
+                    <value.icon
+                      className="text-gold-accent group-hover:text-coffee-dark"
+                      size={28}
+                    />
                   </div>
                   <h3 className="text-xl font-serif font-bold text-coffee-dark mb-3">
                     {value.title}
@@ -164,7 +178,8 @@ export default function AboutPage() {
                 15 Years of Excellence
               </h2>
               <p className="text-xl text-coffee-cream/80 max-w-2xl mx-auto font-light">
-                A timeline of milestones that shaped BrewHouse into what it is today.
+                A timeline of milestones that shaped BrewHouse into what it is
+                today.
               </p>
             </motion.div>
 
@@ -184,7 +199,7 @@ export default function AboutPage() {
                   >
                     {/* Timeline dot */}
                     <div className="absolute left-6 top-2 w-5 h-5 bg-gold-accent rounded-full border-4 border-coffee-dark hidden md:block" />
-                    
+
                     <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
                       <div className="flex items-start gap-4">
                         <span className="text-4xl font-serif font-bold text-gold-accent">
