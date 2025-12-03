@@ -4,7 +4,6 @@ import GoogleProvider from "next-auth/providers/google";
 
 export const {
   handlers: { GET, POST },
-  auth,
 } = NextAuth({
   providers: [
     GoogleProvider({
@@ -20,15 +19,20 @@ export const {
           placeholder: "user@example.com",
         },
         password: { label: "Password", type: "password" },
+        name: {
+          label: "Name",
+          type: "text",
+          placeholder: "Your Name",
+        },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials, _req) {
         // For demo purposes, we'll accept any credentials and use the provided name
         // In a real app, this would validate against a database
         if (credentials?.email && credentials?.password && credentials?.name) {
           return {
-            id: credentials.email,
-            name: credentials.name,
-            email: credentials.email,
+            id: String(credentials.email),
+            name: String(credentials.name),
+            email: String(credentials.email),
           };
         }
 

@@ -2,7 +2,7 @@
 
 import { useOrders } from "@/context/OrderContext";
 import { motion } from "framer-motion";
-import { Package, Clock, CheckCircle, Truck, ChefHat, MapPin, Phone, Mail } from "lucide-react";
+import { Package, Clock, CheckCircle, Truck, ChefHat, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 

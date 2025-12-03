@@ -1,9 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Coffee, Droplets, Candy, ChevronRight, Check } from "lucide-react";
+import { X, Coffee, Droplets, Candy, ChevronRight } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 import { useCart } from "../context/CartContext";
 
 interface CustomOrderModalProps {
@@ -46,14 +45,20 @@ export function CustomOrderModal({ isOpen, onClose }: CustomOrderModalProps) {
       setCurrentStep(currentStep + 1);
     } else {
       // Create custom drink name and add to cart
-      const customDrinkName = `Custom: ${selections.base} with ${selections.milk}${selections.flavor && selections.flavor !== "None" ? ` & ${selections.flavor}` : ""}`;
-      
+      const customDrinkName = `Custom: ${selections.base} with ${
+        selections.milk
+      }${
+        selections.flavor && selections.flavor !== "None"
+          ? ` & ${selections.flavor}`
+          : ""
+      }`;
+
       addItem({
         id: `custom-${Date.now()}`,
         name: customDrinkName,
         price: "$5.99",
       });
-      
+
       onClose();
       setCurrentStep(0);
       setSelections({});
@@ -91,7 +96,7 @@ export function CustomOrderModal({ isOpen, onClose }: CustomOrderModalProps) {
                   <X size={20} />
                 </button>
               </div>
-              
+
               {/* Progress Bar */}
               <div className="flex gap-2">
                 {steps.map((_, index) => (
@@ -146,7 +151,9 @@ export function CustomOrderModal({ isOpen, onClose }: CustomOrderModalProps) {
                   disabled={!selections[steps[currentStep].id]}
                   className="bg-amber-600 hover:bg-amber-700 text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-amber-600/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
-                  {currentStep === steps.length - 1 ? "Finish Order" : "Next Step"}
+                  {currentStep === steps.length - 1
+                    ? "Finish Order"
+                    : "Next Step"}
                   <ChevronRight size={18} />
                 </button>
               </div>
