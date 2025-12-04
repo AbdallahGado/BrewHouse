@@ -154,7 +154,7 @@ export function Hero({ onBookTable }: HeroProps) {
         >
           <span className="text-white drop-shadow-2xl">Awaken Your</span>
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-light via-gold-accent to-gold-light italic pr-4">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-gold-light via-gold-accent to-gold-light italic pr-4">
             Senses
           </span>
         </motion.h1>

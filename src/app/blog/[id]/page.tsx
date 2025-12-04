@@ -179,7 +179,7 @@ export default function BlogPostPage() {
                   prose-h4:text-xl prose-h4:mb-3 prose-h4:mt-8 prose-h4:font-medium
 
                   /* Block Elements */
-                  prose-blockquote:border-l-4 prose-blockquote:border-gold-accent prose-blockquote:pl-8 prose-blockquote:italic prose-blockquote:bg-gradient-to-r prose-blockquote:from-gold-accent/5 prose-blockquote:to-transparent prose-blockquote:py-4 prose-blockquote:my-8 prose-blockquote:rounded-r-lg
+                  prose-blockquote:border-l-4 prose-blockquote:border-gold-accent prose-blockquote:pl-8 prose-blockquote:italic prose-blockquote:bg-linear-to-r prose-blockquote:from-gold-accent/5 prose-blockquote:to-transparent prose-blockquote:py-4 prose-blockquote:my-8 prose-blockquote:rounded-r-lg
                   prose-hr:border-coffee-light/30 prose-hr:my-12
 
                   /* Code and Media */

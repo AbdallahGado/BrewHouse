@@ -23,8 +23,10 @@ export default function RewardsPage() {
 
   const TierIcon = tierIcons[tier];
 
-  const nextTier = tier === "bronze" ? "silver" : tier === "silver" ? "gold" : null;
-  const nextTierPoints = tier === "bronze" ? 500 : tier === "silver" ? 1000 : null;
+  const nextTier =
+    tier === "bronze" ? "silver" : tier === "silver" ? "gold" : null;
+  const nextTierPoints =
+    tier === "bronze" ? 500 : tier === "silver" ? 1000 : null;
   const pointsToNextTier = nextTierPoints ? nextTierPoints - points : 0;
 
   return (
@@ -45,7 +47,7 @@ export default function RewardsPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`bg-gradient-to-br ${tierColors[tier]} rounded-3xl p-8 text-white mb-12 shadow-2xl`}
+            className={`bg-linear-to-br ${tierColors[tier]} rounded-3xl p-8 text-white mb-12 shadow-2xl`}
           >
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
@@ -53,8 +55,12 @@ export default function RewardsPage() {
                   <TierIcon size={40} />
                 </div>
                 <div>
-                  <p className="text-white/80 text-sm uppercase tracking-wide">Your Tier</p>
-                  <h2 className="text-3xl font-serif font-bold capitalize">{tier}</h2>
+                  <p className="text-white/80 text-sm uppercase tracking-wide">
+                    Your Tier
+                  </p>
+                  <h2 className="text-3xl font-serif font-bold capitalize">
+                    {tier}
+                  </h2>
                 </div>
               </div>
               <div className="text-right">
@@ -67,7 +73,9 @@ export default function RewardsPage() {
               <div className="bg-white/10 rounded-xl p-4">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-sm">Progress to {nextTier}</span>
-                  <span className="text-sm font-bold">{pointsToNextTier} points to go</span>
+                  <span className="text-sm font-bold">
+                    {pointsToNextTier} points to go
+                  </span>
                 </div>
                 <div className="w-full bg-white/20 rounded-full h-3">
                   <div
@@ -95,7 +103,10 @@ export default function RewardsPage() {
                 {getTierBenefits().map((benefit, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <div className="bg-gold-accent/10 rounded-full p-1.5 mt-0.5">
-                      <Star size={14} className="text-gold-accent fill-gold-accent" />
+                      <Star
+                        size={14}
+                        className="text-gold-accent fill-gold-accent"
+                      />
                     </div>
                     <span className="text-coffee-dark">{benefit}</span>
                   </li>
@@ -120,8 +131,12 @@ export default function RewardsPage() {
                     <Gift size={14} className="text-gold-accent" />
                   </div>
                   <div>
-                    <p className="font-semibold text-coffee-dark">Make a Purchase</p>
-                    <p className="text-sm text-coffee-medium">Earn 1 point for every $1 spent</p>
+                    <p className="font-semibold text-coffee-dark">
+                      Make a Purchase
+                    </p>
+                    <p className="text-sm text-coffee-medium">
+                      Earn 1 point for every $1 spent
+                    </p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -129,8 +144,12 @@ export default function RewardsPage() {
                     <Trophy size={14} className="text-gold-accent" />
                   </div>
                   <div>
-                    <p className="font-semibold text-coffee-dark">Reach Higher Tiers</p>
-                    <p className="text-sm text-coffee-medium">Earn bonus points with every purchase</p>
+                    <p className="font-semibold text-coffee-dark">
+                      Reach Higher Tiers
+                    </p>
+                    <p className="text-sm text-coffee-medium">
+                      Earn bonus points with every purchase
+                    </p>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
@@ -138,8 +157,12 @@ export default function RewardsPage() {
                     <Star size={14} className="text-gold-accent" />
                   </div>
                   <div>
-                    <p className="font-semibold text-coffee-dark">Birthday Bonus</p>
-                    <p className="text-sm text-coffee-medium">Get 50 bonus points on your birthday</p>
+                    <p className="font-semibold text-coffee-dark">
+                      Birthday Bonus
+                    </p>
+                    <p className="text-sm text-coffee-medium">
+                      Get 50 bonus points on your birthday
+                    </p>
                   </div>
                 </li>
               </ul>
@@ -151,7 +174,7 @@ export default function RewardsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="mt-12 bg-gradient-to-r from-gold-accent to-gold-light rounded-2xl p-8 text-center"
+            className="mt-12 bg-linear-to-r from-gold-accent to-gold-light rounded-2xl p-8 text-center"
           >
             <h3 className="text-2xl font-serif font-bold text-coffee-dark mb-4">
               Start Earning Today!
