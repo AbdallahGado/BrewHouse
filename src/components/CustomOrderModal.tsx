@@ -86,7 +86,7 @@ export function CustomOrderModal({ isOpen, onClose }: CustomOrderModalProps) {
             className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden z-10"
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-amber-600 to-orange-600 p-6 text-white">
+            <div className="bg-linear-to-r from-amber-600 to-orange-600 p-6 text-white">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-2xl font-bold">Build Your Drink</h3>
                 <button

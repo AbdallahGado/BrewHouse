@@ -23,6 +23,7 @@ export function Navigation() {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +51,25 @@ export function Navigation() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isUserDropdownOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleUserDropdown = () => setIsUserDropdownOpen(!isUserDropdownOpen);
@@ -109,7 +129,7 @@ export function Navigation() {
             </button>
 
             {session ? (
-              <div className="relative">
+              <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={toggleUserDropdown}
                   className="flex items-center gap-3 px-3 py-2 text-coffee-cream hover:text-gold-accent transition-colors rounded-full hover:bg-white/5"
@@ -159,7 +179,7 @@ export function Navigation() {
                           { name: "Products", href: "/products" },
                           { name: "Gift Cards", href: "/gift-cards" },
                           { name: "Blog", href: "/blog" },
-                          { name: "Team", href: "/team" },
+                          { name: "Favorites", href: "/favorites" },
                           { name: "Rewards", href: "/rewards" },
                           { name: "Orders", href: "/orders" },
                           { name: "Profile", href: "/profile" },
@@ -234,6 +254,7 @@ export function Navigation() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
+            ref={mobileMenuRef}
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -248,7 +269,6 @@ export function Navigation() {
                 "About",
                 "Gallery",
                 "Blog",
-                "Team",
                 "Rewards",
                 "Orders",
                 "Contact",

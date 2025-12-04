@@ -3,36 +3,22 @@
 import { motion } from "framer-motion";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { ArrowRight, Calendar, User } from "lucide-react";
+import Link from "next/link";
+import { blogPosts } from "@/data/blogPosts";
 
-const posts = [
-  {
-    slug: "pour-over-guide",
-    title: "The Art of Pour Over Coffee",
-    excerpt: "Master the technique of manual brewing for a cleaner, more flavorful cup.",
-    date: "Oct 15, 2023",
-    author: "Sarah Chen",
-    image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwb3VyJTIwb3ZlciUyMGNvZmZlZXxlbnwxfHx8fDE3NjQyNDIzMzV8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    category: "Brewing Guide",
-  },
-  {
-    slug: "roast-levels",
-    title: "Understanding Coffee Roast Levels",
-    excerpt: "From blonde to dark roast: how roasting profiles affect flavor notes.",
-    date: "Oct 22, 2023",
-    author: "Michael Chen",
-    image: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBiZWFucyUyMHJvYXN0ZWR8ZW58MXx8fHwxNzY0MjQyMzM2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-    category: "Knowledge",
-  },
-  {
-    slug: "sustainability",
-    title: "Sustainability in Coffee Farming",
-    excerpt: "How we work with farmers to ensure ethical and sustainable practices.",
-    date: "Nov 05, 2023",
-    author: "Sarah Chen",
-    image: "https://images.unsplash.com/photo-1511537632536-b7a575805d93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2ZmZWUlMjBmYXJtfGVufDF8fHx8MTc2NDI0MjMzN3ww&ixlib=rb-4.1.0&q=80&w=1080",
-    category: "Sustainability",
-  },
-];
+const posts = blogPosts.slice(0, 3).map((post) => ({
+  slug: post.slug,
+  title: post.title,
+  excerpt: post.excerpt,
+  date: new Date(post.date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }),
+  author: post.author.name,
+  image: post.image,
+  category: post.category,
+}));
 
 export function Blog() {
   return (
@@ -60,6 +46,14 @@ export function Blog() {
           <p className="text-xl text-coffee-medium max-w-2xl mx-auto font-light">
             Explore the world of coffee through our latest stories and guides.
           </p>
+          <div className="mt-8">
+            <Link
+              href="/blog"
+              className="inline-block bg-gold-accent text-coffee-dark px-8 py-3 rounded-full font-bold hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300"
+            >
+              View All Posts
+            </Link>
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -83,7 +77,7 @@ export function Blog() {
                   {post.category}
                 </div>
               </div>
-              
+
               <div className="p-8 flex-1 flex flex-col">
                 <div className="flex items-center gap-4 text-xs text-coffee-medium/70 mb-4 uppercase tracking-wider font-medium">
                   <div className="flex items-center gap-1">
@@ -95,15 +89,18 @@ export function Blog() {
                     {post.author}
                   </div>
                 </div>
-                
+
                 <h3 className="text-xl font-serif font-bold text-coffee-dark mb-3 group-hover:text-gold-accent transition-colors">
                   {post.title}
                 </h3>
                 <p className="text-coffee-medium/80 text-sm mb-6 line-clamp-2 font-light leading-relaxed flex-1">
                   {post.excerpt}
                 </p>
-                
-                <a href={`/blog/${post.slug}`} className="inline-flex items-center gap-2 text-gold-accent font-bold text-sm hover:gap-3 transition-all uppercase tracking-wider mt-auto">
+
+                <a
+                  href={`/blog/${post.slug}`}
+                  className="inline-flex items-center gap-2 text-gold-accent font-bold text-sm hover:gap-3 transition-all uppercase tracking-wider mt-auto"
+                >
                   Read More <ArrowRight size={16} />
                 </a>
               </div>

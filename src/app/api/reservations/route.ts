@@ -14,14 +14,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log("Reservation details:", {
-      name,
-      email,
-      phone,
-      date,
-      time,
-      guests,
-    });
     // Send confirmation email
     const emailResult = await sendReservationEmail({
       name,
@@ -33,7 +25,6 @@ export async function POST(request: NextRequest) {
     });
 
     if (!emailResult.success) {
-      console.error("Email sending failed with error:", emailResult.error);
       return NextResponse.json(
         {
           error: "Failed to send confirmation email",

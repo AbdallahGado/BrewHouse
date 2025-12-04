@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Gift, CreditCard, Mail, Download } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { toast } from "sonner";
-import { useGiftCard } from "@/context/GiftCardContext";
 
 const giftCardAmounts = [25, 50, 100, 150, 200];
 
@@ -16,23 +15,63 @@ export default function GiftCardsPage() {
   const [recipientName, setRecipientName] = useState("");
   const [senderName, setSenderName] = useState("");
   const [message, setMessage] = useState("");
-  const {} = useGiftCard();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handlePurchase = (e: React.FormEvent) => {
+  const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validation
+    if (!recipientName || !recipientEmail || !senderName) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount;
-    const code = `BH${Date.now().toString(36).toUpperCase()}`;
 
-    toast.success("Gift Card Purchased!", {
-      description: `A $${amount} gift card has been sent to ${recipientEmail}. Code: ${code}`,
-    });
+    if (isNaN(amount) || amount < 10 || amount > 500) {
+      toast.error("Please enter a valid amount between $10 and $500");
+      return;
+    }
 
-    // Reset form
-    setRecipientEmail("");
-    setRecipientName("");
-    setSenderName("");
-    setMessage("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/gift-cards", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          recipientName,
+          recipientEmail,
+          senderName,
+          amount,
+          message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Gift Card Sent!", {
+          description: `A $${amount} gift card has been sent to ${recipientEmail}. Code: ${data.giftCard.code}`,
+        });
+
+        // Reset form
+        setRecipientEmail("");
+        setRecipientName("");
+        setSenderName("");
+        setMessage("");
+        setCustomAmount("");
+      } else {
+        toast.error(data.error || "Failed to send gift card");
+      }
+    } catch (error) {
+      console.error("Gift card purchase error:", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -77,11 +116,12 @@ export default function GiftCardsPage() {
                           setSelectedAmount(amount);
                           setCustomAmount("");
                         }}
+                        disabled={isSubmitting}
                         className={`p-4 rounded-xl border-2 transition-all ${
                           selectedAmount === amount && !customAmount
                             ? "border-gold-accent bg-gold-accent/10"
                             : "border-coffee-light/20 hover:border-gold-accent/30"
-                        }`}
+                        } disabled:opacity-50`}
                       >
                         <span className="text-2xl font-bold text-coffee-dark">
                           ${amount}
@@ -94,7 +134,8 @@ export default function GiftCardsPage() {
                         placeholder="Custom amount"
                         value={customAmount}
                         onChange={(e) => setCustomAmount(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent disabled:opacity-50"
                         min="10"
                         max="500"
                       />
@@ -118,7 +159,8 @@ export default function GiftCardsPage() {
                         required
                         value={recipientName}
                         onChange={(e) => setRecipientName(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent disabled:opacity-50"
                         placeholder="John Doe"
                       />
                     </div>
@@ -132,7 +174,8 @@ export default function GiftCardsPage() {
                         required
                         value={recipientEmail}
                         onChange={(e) => setRecipientEmail(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent disabled:opacity-50"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -146,7 +189,8 @@ export default function GiftCardsPage() {
                         required
                         value={senderName}
                         onChange={(e) => setSenderName(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent"
+                        disabled={isSubmitting}
+                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent disabled:opacity-50"
                         placeholder="Jane Smith"
                       />
                     </div>
@@ -158,8 +202,9 @@ export default function GiftCardsPage() {
                       <textarea
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
+                        disabled={isSubmitting}
                         rows={4}
-                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent resize-none"
+                        className="w-full px-4 py-3 rounded-xl border border-coffee-light/20 focus:outline-none focus:ring-2 focus:ring-gold-accent resize-none disabled:opacity-50"
                         placeholder="Add a personal message to your gift..."
                       />
                     </div>
@@ -169,10 +214,13 @@ export default function GiftCardsPage() {
                 {/* Purchase Button */}
                 <button
                   type="submit"
-                  className="w-full bg-gold-accent text-coffee-dark px-8 py-4 rounded-full font-bold text-lg hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300 shadow-lg flex items-center justify-center gap-3"
+                  disabled={isSubmitting}
+                  className="w-full bg-gold-accent text-coffee-dark px-8 py-4 rounded-full font-bold text-lg hover:bg-coffee-dark hover:text-gold-accent transition-all duration-300 shadow-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <CreditCard size={24} />
-                  Purchase Gift Card - ${customAmount || selectedAmount}
+                  {isSubmitting
+                    ? "Sending Gift Card..."
+                    : `Purchase Gift Card - $${customAmount || selectedAmount}`}
                 </button>
               </form>
             </motion.div>
@@ -185,7 +233,7 @@ export default function GiftCardsPage() {
               className="space-y-6"
             >
               {/* Gift Card Preview */}
-              <div className="bg-gradient-to-br from-coffee-dark to-coffee-medium rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+              <div className="bg-linear-to-br from-coffee-dark to-coffee-medium rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-gold-accent/10 rounded-full blur-3xl" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-8">

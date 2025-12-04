@@ -457,7 +457,7 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-coffee-dark mb-2 flex items-center gap-2">
+                      <label className="text-sm font-medium text-coffee-dark mb-2 flex items-center gap-2">
                         CVV *
                         <Lock size={14} className="text-coffee-medium" />
                       </label>

@@ -1,7 +1,7 @@
 "use client";
 
 import { About } from "@/components/About";
-import { Team } from "@/components/Team";
+
 import { Testimonials } from "@/components/Testimonials";
 import { Footer } from "@/components/Footer";
 import { motion } from "framer-motion";
@@ -221,9 +221,6 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-
-        {/* Team Section */}
-        <Team />
 
         {/* Testimonials */}
         <Testimonials />

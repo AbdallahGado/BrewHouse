@@ -79,7 +79,7 @@ export function About() {
               </p>
               <p>
                 At BrewHouse, we believe coffee is a craft. Our master roasters
-                misleadingly profile each batch to unlock its unique flavor
+                meticulously profile each batch to unlock its unique flavor
                 notes, from the bright citrus of Ethiopian Yirgacheffe to the
                 deep chocolate undertones of Colombian Supremo.
               </p>

@@ -1,4 +1,4 @@
-// Skeleton Components for Loading States
+ // Skeleton Components for Loading States
 
 interface SkeletonProps {
   className?: string;

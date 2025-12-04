@@ -1,7 +1,7 @@
-"use client";
-
 import { Menu } from "@/components/Menu";
 import { Footer } from "@/components/Footer";
+
+export { metadata } from "./metadata";
 
 export default function MenuPage() {
   return (

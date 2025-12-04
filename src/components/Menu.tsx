@@ -426,7 +426,7 @@ export function Menu() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3, delay: index * 0.05 }}
-                  className="bg-white rounded-2xl p-6 shadow-sm border border-coffee-light/10 hover:shadow-xl transition-all duration-300 relative group"
+                  className="bg-white rounded-2xl p-6 shadow-sm border border-coffee-light/10 hover:shadow-xl transition-all duration-300 relative group flex flex-col h-full"
                 >
                   {item.popular && (
                     <div className="absolute top-4 right-4 bg-gold-accent text-coffee-dark text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 shadow-md">
@@ -475,15 +475,17 @@ export function Menu() {
                     {item.description}
                   </p>
 
-                  <motion.button
-                    className="w-full bg-coffee-dark text-white hover:bg-gold-accent hover:text-coffee-dark py-3 px-6 rounded-xl font-bold transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleAddToCart(item)}
-                  >
-                    <ShoppingBag size={18} />
-                    Add to Order
-                  </motion.button>
+                  <div className="mt-auto pt-6">
+                    <motion.button
+                      className="w-full bg-coffee-dark text-white hover:bg-gold-accent hover:text-coffee-dark py-3 px-6 rounded-xl font-bold transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleAddToCart(item)}
+                    >
+                      <ShoppingBag size={18} />
+                      Add to Order
+                    </motion.button>
+                  </div>
                 </motion.div>
               ))
             )}

@@ -7,6 +7,7 @@ import { CartProvider } from "../context/CartContext";
 import { OrderProvider } from "../context/OrderContext";
 import { FavoritesProvider } from "../context/FavoritesContext";
 import { LoyaltyProvider } from "../context/LoyaltyContext";
+import { GiftCardProvider } from "../context/GiftCardContext";
 import { ErrorBoundary } from "../components/ErrorBoundary";
 import { LayoutWrapper } from "../components/LayoutWrapper";
 
@@ -56,10 +57,12 @@ export default function RootLayout({
             <FavoritesProvider>
               <OrderProvider>
                 <LoyaltyProvider>
-                  <CartProvider>
-                    <LayoutWrapper>{children}</LayoutWrapper>
-                    <Toaster position="bottom-right" richColors />
-                  </CartProvider>
+                  <GiftCardProvider>
+                    <CartProvider>
+                      <LayoutWrapper>{children}</LayoutWrapper>
+                      <Toaster position="bottom-right" richColors />
+                    </CartProvider>
+                  </GiftCardProvider>
                 </LoyaltyProvider>
               </OrderProvider>
             </FavoritesProvider>
