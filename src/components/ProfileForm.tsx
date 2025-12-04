@@ -1,5 +1,3 @@
-import React from "react";
-
 const ProfileForm = () => {
   return (
     <form className="space-y-6">
