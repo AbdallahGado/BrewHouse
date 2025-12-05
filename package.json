@@ -58,6 +58,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/uuid": "^10.0.0",
     "autoprefixer": "^10.4.22",
+    "strip-comments": "^2.0.1",
     "tailwindcss": "^4.1.17",
     "typescript": "5.9.3"
   },

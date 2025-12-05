@@ -186,7 +186,7 @@ export function Footer() {
           viewport={{ once: true }}
         >
           <p className="text-coffee-cream/40 text-sm">
-            &copy; {new Date().getFullYear()} BrewHouse. All rights reserved.
+            &copy; {new Date().getFullYear()} AG. All rights reserved.
             Made with <span className="text-red-400 animate-pulse">❤️</span> for
             coffee lovers.
           </p>

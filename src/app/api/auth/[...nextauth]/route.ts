@@ -26,8 +26,6 @@ export const {
         },
       },
       async authorize(credentials, _req) {
-        // For demo purposes, we'll accept any credentials and use the provided name
-        // In a real app, this would validate against a database
         if (credentials?.email && credentials?.password && credentials?.name) {
           return {
             id: String(credentials.email),
